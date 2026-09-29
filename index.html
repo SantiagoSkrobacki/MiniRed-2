@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Reglas de asociacion sobre MiniRed_DW con Apriori y Weka: preparacion de datos, verificacion manual, curaduria y guion de exposicion.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#128722;</text></svg>">
+<title>Cazadores de Patrones MiniRed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+
+<style>
+:root{
+  --pp:#EBEAE6; --cd:#FDFDFC; --cd2:#F3F2EE;
+  --ink:#191B1F; --ink2:#565B66; --ink3:#868C96;
+  --ln:#D8D7D2; --ln2:#C2C1BB;
+  --ac:#2B3A67; --acs:#E0E4EF;
+  --ok:#2A6E3F; --oks:#E2EFE4;
+  --wn:#A8620A; --wns:#F7EBDA;
+  --bd:#A33224; --bds:#F7E2DE;
+  --sh:0 1px 2px rgba(25,27,31,.05),0 10px 26px -18px rgba(25,27,31,.35);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --pp:#121316; --cd:#1B1D21; --cd2:#23262B;
+  --ink:#E8E9EC; --ink2:#9CA3AE; --ink3:#767D88;
+  --ln:#2B2E34; --ln2:#3A3E45;
+  --ac:#93A7DC; --acs:#1B2338;
+  --ok:#6FBF80; --oks:#16281B;
+  --wn:#D9A253; --wns:#2C2315;
+  --bd:#E08472; --bds:#301D19;
+  --sh:0 1px 2px rgba(0,0,0,.5),0 10px 26px -18px rgba(0,0,0,.9);
+}}
+:root[data-theme="dark"]{
+  --pp:#121316; --cd:#1B1D21; --cd2:#23262B;
+  --ink:#E8E9EC; --ink2:#9CA3AE; --ink3:#767D88;
+  --ln:#2B2E34; --ln2:#3A3E45;
+  --ac:#93A7DC; --acs:#1B2338;
+  --ok:#6FBF80; --oks:#16281B;
+  --wn:#D9A253; --wns:#2C2315;
+  --bd:#E08472; --bds:#301D19;
+  --sh:0 1px 2px rgba(0,0,0,.5),0 10px 26px -18px rgba(0,0,0,.9);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--pp);color:var(--ink);
+  font:16px/1.62 "Source Sans 3","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Bricolage Grotesque",Archivo,sans-serif;margin:0;line-height:1.1;letter-spacing:-.02em;text-wrap:balance}
+p{margin:0}
+.mn,code{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace}
+a{color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+
+.shell{display:grid;grid-template-columns:216px minmax(0,1fr);max-width:1340px;margin:0 auto;gap:34px;padding:0 28px}
+.toc{position:sticky;top:0;height:100vh;padding:28px 0;display:flex;flex-direction:column;gap:3px;overflow-y:auto}
+.toc .bm{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:15px;letter-spacing:-.02em;margin-bottom:13px;line-height:1.2}
+.toc .bm span{display:block;font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:400;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-top:4px}
+.toc a{display:grid;grid-template-columns:19px 1fr;gap:8px;padding:6px 8px;border-radius:6px;font-size:12.5px;
+  color:var(--ink2);text-decoration:none;transition:background .14s,color .14s}
+.toc a:hover{background:var(--cd);color:var(--ink)}
+.toc a i{font-style:normal;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink3)}
+.toc .sep{margin-top:11px;padding:0 8px 4px;font-family:"JetBrains Mono",monospace;font-size:9px;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--ink3)}
+main{padding:28px 0 90px;min-width:0}
+section{padding:26px 0;border-top:1px solid var(--ln)}
+section:first-of-type{border-top:0;padding-top:6px}
+.prose{max-width:70ch}
+.eb{font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:500;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ac);margin-bottom:8px}
+h1{font-size:clamp(33px,4.4vw,48px);font-weight:800;letter-spacing:-.033em}
+h2{font-size:clamp(22px,2.4vw,28px);font-weight:700;margin-bottom:11px}
+h3{font-size:16.5px;font-weight:700;margin:20px 0 7px}
+.lead{font-size:18px;color:var(--ink2);margin-top:11px;max-width:66ch}
+p+p{margin-top:10px}
+.sub{color:var(--ink2)} .sm{font-size:14.5px} .xs{font-size:12.5px}
+
+.card{background:var(--cd);border:1px solid var(--ln);border-radius:11px;padding:19px;box-shadow:var(--sh);margin-top:15px}
+.card.q{background:var(--cd2);box-shadow:none}
+.kk{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink2);margin-bottom:9px}
+.grid{display:grid;gap:12px;margin-top:15px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(195px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+
+.note{border-left:3px solid var(--ac);background:var(--cd);border-radius:0 9px 9px 0;padding:13px 16px;margin-top:15px;font-size:15px}
+.note.w{border-left-color:var(--wn);background:var(--wns)}
+.note.b{border-left-color:var(--bd);background:var(--bds)}
+.note.o{border-left-color:var(--ok);background:var(--oks)}
+.note b{font-weight:600}
+.note.w b{color:var(--wn)} .note.b b{color:var(--bd)} .note.o b{color:var(--ok)}
+
+.stat{background:var(--cd);border:1px solid var(--ln);border-radius:10px;padding:15px 16px}
+.stat b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:27px;font-weight:800;
+  letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{display:block;font-size:12.5px;color:var(--ink2);margin-top:3px}
+
+.status{display:grid;grid-template-columns:22px 1fr;gap:11px;align-items:start;padding:8px 0;border-bottom:1px solid var(--ln)}
+.status:last-child{border-bottom:0}
+.status .m{font-family:"JetBrains Mono",monospace;font-size:14px;font-weight:700;line-height:1.5}
+.status.y .m{color:var(--ok)} .status.n .m{color:var(--wn)}
+.status b{font-weight:600;font-size:15px}
+.status p{font-size:13.5px;color:var(--ink2);margin-top:1px}
+
+.mx{overflow-x:auto;border:1px solid var(--ln);border-radius:10px;background:var(--cd);margin-top:15px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--ln);white-space:nowrap}
+th{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink2);background:var(--cd2)}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:"JetBrains Mono",monospace;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2)}
+td.r{font-weight:600;white-space:normal;min-width:210px}
+td.w{white-space:normal;font-size:13px;color:var(--ink2);min-width:180px}
+.badge{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;padding:3px 7px;border-radius:5px;letter-spacing:.04em}
+.badge.y{background:var(--oks);color:var(--ok)}
+.badge.w{background:var(--wns);color:var(--wn)}
+.badge.b{background:var(--bds);color:var(--bd)}
+.delta{font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums;font-size:12.5px;font-weight:700}
+.delta.y{color:var(--ok)} .delta.b{color:var(--bd)}
+
+.lift{display:flex;align-items:center;gap:8px;min-width:170px}
+.liftbar{position:relative;height:7px;border-radius:4px;background:var(--cd2);flex:1;min-width:80px}
+.liftbar i{display:block;height:100%;border-radius:4px;background:var(--ac)}
+.liftbar b{position:absolute;top:-4px;bottom:-4px;width:1.5px;background:var(--ink3)}
+.liftv{font-family:"JetBrains Mono",monospace;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;min-width:42px;text-align:right}
+
+.calc{background:var(--cd2);border:1px solid var(--ln);border-radius:10px;padding:15px 17px;margin-top:13px;
+  font-family:"JetBrains Mono",monospace;font-size:12.5px;line-height:1.95;overflow-x:auto}
+.calc .l{color:var(--ink2)} .calc .v{color:var(--ac);font-weight:700}
+.calc hr{border:0;border-top:1px solid var(--ln);margin:8px 0}
+
+pre{background:var(--cd2);border:1px solid var(--ln);border-radius:10px;padding:14px 16px;overflow-x:auto;
+  font-family:"JetBrains Mono",monospace;font-size:12px;line-height:1.6;margin-top:13px}
+code{font-size:.9em;background:var(--cd2);border:1px solid var(--ln);border-radius:4px;padding:1px 5px}
+pre code{background:none;border:0;padding:0;font-size:inherit}
+
+.steps{counter-reset:s;display:flex;flex-direction:column;gap:13px;margin-top:16px}
+.step{counter-increment:s;display:grid;grid-template-columns:29px minmax(0,1fr);gap:13px;align-items:start}
+.step::before{content:counter(s);font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:14px;
+  width:29px;height:29px;border-radius:8px;background:var(--ac);color:var(--pp);display:grid;place-items:center}
+.step h3{margin:3px 0 4px;font-size:16px}
+.step p{font-size:14.5px;color:var(--ink2)}
+
+.script{display:grid;grid-template-columns:62px minmax(0,1fr);gap:0;border:1px solid var(--ln);
+  border-radius:10px;overflow:hidden;margin-top:13px;background:var(--cd)}
+.script>div{padding:12px 14px;border-bottom:1px solid var(--ln)}
+.script>div:nth-last-child(-n+2){border-bottom:0}
+.script .t{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--ac);font-weight:700;
+  background:var(--cd2);border-right:1px solid var(--ln);text-align:center;font-variant-numeric:tabular-nums}
+.script .c b{display:block;font-weight:600;font-size:14.5px;margin-bottom:2px}
+.script .c p{font-size:13.5px;color:var(--ink2)}
+.say{border-left:2px solid var(--ac);padding-left:11px;margin-top:7px;font-style:italic;font-size:13.5px;color:var(--ink)}
+
+.kv{display:grid;grid-template-columns:auto 1fr;gap:5px 15px;font-size:14px;margin-top:9px}
+.kv dt{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--ink2);white-space:nowrap}
+.kv dd{margin:0;font-weight:600}
+ul{margin:9px 0 0;padding-left:19px}
+li{margin-bottom:5px;font-size:15px}
+li::marker{color:var(--ink3)}
+footer{border-top:1px solid var(--ln);margin-top:28px;padding-top:17px;font-size:12.5px;color:var(--ink3);max-width:70ch}
+
+@media(max-width:980px){
+  .shell{grid-template-columns:1fr;gap:0;padding:0 18px}
+  .toc{position:static;height:auto;padding:22px 0 6px;flex-direction:row;flex-wrap:wrap;gap:5px;border-bottom:1px solid var(--ln)}
+  .toc .bm{width:100%;margin-bottom:8px} .toc .sep{display:none}
+  .toc a{grid-template-columns:auto;border:1px solid var(--ln);font-size:12px}
+  .toc a i{display:none}
+  main{padding-top:20px}
+  .script{grid-template-columns:50px minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="shell">
+<nav class="toc">
+  <div class="bm">Cazadores de Patrones<span>MiniRed · Clase 8</span></div>
+  <a href="#idea"><i>01</i>La idea</a>
+  <a href="#datos"><i>02</i>Preparación</a>
+  <a href="#nums"><i>03</i>Los tres números</a>
+  <a href="#verif"><i>04</i>Verificación</a>
+  <a href="#corridas"><i>05</i>Las dos corridas</a>
+  <a href="#hallazgo"><i>06</i>El hallazgo</a>
+  <a href="#curadas"><i>07</i>Reglas finales</a>
+  <a href="#descartes"><i>08</i>Los descartes</a>
+  <a href="#fp"><i>09</i>FP-Growth</a>
+  <div class="sep">Presentación</div>
+  <a href="#guion"><i>10</i>Guion 2 × 5 min</a>
+  <a href="#ia"><i>11</i>Rol de la IA</a>
+  <a href="#falta"><i>12</i>Qué falta hacer</a>
+</nav>
+
+<main>
+
+<section id="idea">
+  <div class="eb">Actividad práctica · Unidad 5</div>
+  <h1>Cazadores de patrones en MiniRed</h1>
+  <p class="lead">Qué productos se compran juntos en MiniRed, probado con Apriori sobre 67.521 tickets
+    reales — y por qué la mayoría de las reglas que encuentra el algoritmo hay que tirarlas.</p>
+
+  <div class="grid g4">
+    <div class="stat"><b>67.521</b><span>transacciones</span></div>
+    <div class="stat"><b>30</b><span>ítems distintos</span></div>
+    <div class="stat"><b>53</b><span>reglas encontradas</span></div>
+    <div class="stat"><b>7</b><span>reglas que sobrevivieron</span></div>
+  </div>
+
+  <div class="prose">
+    <p style="margin-top:17px">El algoritmo se llama <b>Apriori</b>. Recorre los tickets y devuelve reglas
+      del tipo <code class="mn">{A} → {B}</code>: "quien compra A, compra B". Encontrarlas es la parte fácil,
+      la hace la herramienta en tres segundos. <b>El trabajo real es separar las que valen de la basura</b>,
+      y eso no lo hace ninguna máquina.</p>
+  </div>
+
+  <div class="note o">
+    <b>El resultado más interesante del trabajo no es una regla: es un criterio.</b> Encontramos que
+    las reglas con explicación de negocio plausible son <em>exactamente las mismas</em> que se mantienen
+    estables entre 2024 y 2025. Las que no tienen explicación se mueven entre −50 % y +5.000 %.
+    El olfato de negocio y la evidencia estadística coincidieron.
+  </div>
+</section>
+
+<section id="datos">
+  <div class="eb">02 · Fase 0</div>
+  <h2>Preparación de los datos</h2>
+  <p class="prose sub">Donde se fue el 80 % del tiempo, y donde estaban todas las decisiones.</p>
+
+  <h3>El recorte y su justificación</h3>
+  <p class="prose sm">Se trabajó sobre <code class="mn">Fact_Ventas</code> de <code class="mn">MiniRed_DW</code>,
+    con el catálogo completo (30 productos), las 7 sucursales y los dos años disponibles (2024–2025).
+    Se tomó una sola decisión de recorte, y fue necesaria:</p>
+
+  <div class="note">
+    <b>Se excluyeron los tickets de un solo producto: 152.944 de 220.465 (el 69 %).</b>
+    Una transacción con un único ítem no puede generar ninguna regla de asociación — no hay con qué
+    asociarlo — pero sí infla el denominador y hunde artificialmente todos los soportes.
+    Quedaron <b>67.521 transacciones útiles</b>, con un promedio de 2,34 productos por ticket.
+  </div>
+
+  <h3>De grano de línea a grano de ticket</h3>
+  <p class="prose sm">La tabla de hechos tiene una fila por <em>línea</em>. Apriori necesita una fila por
+    <em>canasta</em>. La transformación:</p>
+
+  <div class="grid g2">
+    <div class="card q"><div class="kk">Fact_Ventas (origen)</div>
+      <pre style="margin:0;background:var(--cd)"><code>IdVenta  IdTicket  IdProducto
+   1      5001       Gaseosa
+   2      5001       Cerveza
+   3      5002       Leche</code></pre></div>
+    <div class="card q"><div class="kk">Matriz transaccional (Weka)</div>
+      <pre style="margin:0;background:var(--cd)"><code>Gaseosa  Cerveza  Leche
+   1        1        0
+   0        0        1</code></pre></div>
+  </div>
+
+  <div class="note w">
+    <b>La trampa del enunciado.</b> El enunciado indica agrupar por <code class="mn">IdVenta</code>
+    "(el ticket)". En <code class="mn">MiniRed_DW</code> el <code class="mn">IdVenta</code> es la PK de
+    la <em>línea</em>; el ticket es <code class="mn">IdTicket</code>. Agrupando como dice el texto,
+    cada canasta tendría un solo producto y Apriori no encontraría absolutamente nada.
+    Lo mismo con la escala: el enunciado habla de 4.200 artículos en 14 sucursales, y la base tiene 30 y 7.
+  </div>
+
+  <h3>Los tres errores de siempre, resueltos</h3>
+  <div class="card">
+    <div class="status y"><span class="m">✓</span><div><b>Atributos sin discretizar</b>
+      <p>El <code class="mn">.arff</code> declara los 30 atributos como nominales <code class="mn">{0,1}</code>. No hizo falta NumericToNominal.</p></div></div>
+    <div class="status y"><span class="m">✓</span><div><b>El identificador de ticket como atributo</b>
+      <p><code class="mn">IdTicket</code> no está en el archivo. Se usó solo para agrupar y se descartó.</p></div></div>
+    <div class="status y"><span class="m">✓</span><div><b>El soporte por defecto demasiado alto</b>
+      <p>El default de Weka (0,1) no devuelve nada útil acá. Se corrió con 0,05 y con 0,01.</p></div></div>
+  </div>
+</section>
+
+<section id="nums">
+  <div class="eb">03</div>
+  <h2>Los tres números</h2>
+  <p class="prose sub">Explicados con la regla más fuerte que encontramos, con los conteos exactos.</p>
+
+  <div class="card">
+    <div class="kk">La regla</div>
+    <p style="font-family:'Bricolage Grotesque',sans-serif;font-size:21px;font-weight:700">
+      Gaseosa Lima-Limón <span style="color:var(--ac)">→</span> Cerveza Negra</p>
+    <dl class="kv">
+      <dt>N</dt><dd>67.521 tickets</dd>
+      <dt>n(Gaseosa)</dt><dd>2.297</dd>
+      <dt>n(Cerveza)</dt><dd>2.494</dd>
+      <dt>n(ambos)</dt><dd>1.210</dd>
+    </dl>
+    <div class="calc">
+      <span class="l">soporte&nbsp;&nbsp;&nbsp;= n(A y B) / N&nbsp;&nbsp;&nbsp;&nbsp;= 1.210 / 67.521 = </span><span class="v">0,0179</span> <span class="l">(1,8 %)</span><br>
+      <span class="l">confianza = n(A y B) / n(A) = 1.210 / 2.297&nbsp;&nbsp;= </span><span class="v">0,527</span> <span class="l">(52,7 %)</span><br>
+      <hr>
+      <span class="l">base(B)&nbsp;&nbsp;&nbsp;= n(B) / N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 2.494 / 67.521 = 0,037 (3,7 %)</span><br>
+      <span class="l">lift&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= confianza / base(B) = 0,527 / 0,037&nbsp;&nbsp;&nbsp;&nbsp;= </span><span class="v">14,26</span>
+    </div>
+  </div>
+
+  <div class="grid g3">
+    <div class="card q"><div class="kk">Soporte</div>
+      <p class="sm">Qué tan seguido pasa. Si es muy bajo, la regla es anécdota: puede ser cierta y no servir porque afecta a tres clientes.</p></div>
+    <div class="card q"><div class="kk">Confianza</div>
+      <p class="sm">De los que llevan A, qué proporción lleva B. <b>Sola miente:</b> si B es popular, sale alta sin que haya relación.</p></div>
+    <div class="card q"><div class="kk">Lift</div>
+      <p class="sm">Cuántas veces más probable que el azar. <b>Es el que decide.</b> Lift 1 = no hay relación; menor a 1 = se compran separados.</p></div>
+  </div>
+
+  <div class="note o">
+    <b>Leído en criollo:</b> la cerveza negra está en el 3,7 % de los tickets en general.
+    Pero entre los que llevan Gaseosa Lima-Limón está en el 52,7 %. Es <b>14 veces más probable</b>.
+  </div>
+
+  <h3>Por qué la confianza sola no alcanza</h3>
+  <p class="prose sm"><code class="mn">Alfajor Triple → Galletitas Dulces</code> tiene confianza <b>25,6 %</b>.
+    Suena razonable hasta que uno mira que las Galletitas Dulces están en el <b>15,1 %</b> de todos los
+    tickets igual. El lift es 1,70: apenas mejor que agarrar un ticket al azar. La confianza era alta
+    solo porque el producto es popular.</p>
+</section>
+
+<section id="verif">
+  <div class="eb">04 · Fase 1</div>
+  <h2>Verificación manual</h2>
+  <p class="prose sub">Tres reglas calculadas con la definición en SQL, contra lo que devolvió Weka.
+    Los cálculos son independientes: SQL sobre la base, Weka sobre el <code class="mn">.arff</code>.</p>
+
+  <div class="mx">
+    <table>
+      <thead><tr><th>Regla</th><th class="n">n(A)</th><th class="n">n(A,B)</th>
+        <th class="n">Conf. SQL</th><th class="n">Conf. Weka</th><th class="n">Lift SQL</th><th class="n">Lift Weka</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="r">Detergente → Palitos Helados</td><td class="n">6.348</td><td class="n">4.778</td>
+          <td class="n">0,7527</td><td class="n">0,75</td><td class="n">7,450</td><td class="n">7,45</td>
+          <td><span class="badge y">COINCIDE</span></td></tr>
+        <tr><td class="r">Mermelada → Caramelos</td><td class="n">5.466</td><td class="n">4.023</td>
+          <td class="n">0,7360</td><td class="n">0,74</td><td class="n">8,443</td><td class="n">8,44</td>
+          <td><span class="badge y">COINCIDE</span></td></tr>
+        <tr><td class="r">Gaseosa Lima-Limón → Cerveza Negra</td><td class="n">2.297</td><td class="n">1.210</td>
+          <td class="n">0,5268</td><td class="n">0,53</td><td class="n">14,262</td><td class="n">14,26</td>
+          <td><span class="badge y">COINCIDE</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="xs sub" style="margin-top:8px">Weka redondea a dos decimales; el SQL muestra cuatro.
+    Las diferencias son solo de redondeo.</p>
+
+  <div class="note"><b>Por qué importa este paso.</b> No es burocracia: es la única forma de saber que la
+    matriz transaccional se armó bien. Si el <code class="mn">.arff</code> tuviera el <code class="mn">IdTicket</code>
+    adentro, o si se hubiera agrupado mal, los números <em>no coincidirían</em> — y sin esta comparación
+    el error pasaría desapercibido hasta la exposición.</div>
+</section>
+
+<section id="corridas">
+  <div class="eb">05 · Fase 1</div>
+  <h2>Las dos corridas</h2>
+  <p class="prose sub">Misma matriz, misma confianza mínima. Lo único que cambia es el soporte mínimo.</p>
+
+  <div class="mx">
+    <table>
+      <thead><tr><th>Corrida</th><th class="n">Soporte mín.</th><th class="n">Instancias</th>
+        <th class="n">Ciclos</th><th class="n">Itemsets L(2)</th><th class="n">Reglas</th><th class="n">Tiempo</th></tr></thead>
+      <tbody>
+        <tr><td class="r">1 — soporte 0,05</td><td class="n">0,05</td><td class="n">3.376</td>
+          <td class="n">19</td><td class="n">4</td><td class="n" style="color:var(--ink);font-weight:700">8</td><td class="n">0,81 s</td></tr>
+        <tr><td class="r">2 — soporte 0,01</td><td class="n">0,01</td><td class="n">675</td>
+          <td class="n">99</td><td class="n">57</td><td class="n" style="color:var(--bd);font-weight:700">53</td><td class="n">3,70 s</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note b">
+    <b>Bajar el soporte de 0,05 a 0,01 multiplicó las reglas por 6,6.</b> Con 30 productos y una matriz
+    chica. Con los 4.200 artículos de una cadena real, el mismo salto produce decenas de miles.
+    Eso es exactamente lo que significa "qué hacer con 40.000 reglas" — y por qué el trabajo del analista
+    empieza donde termina el algoritmo.
+  </div>
+
+  <h3>El comando exacto</h3>
+  <pre><code>java -cp weka.jar weka.associations.Apriori \
+     -t minired_canasta.arff -N 100 -C 0.5 -M 0.01 -D 0.01 -Z</code></pre>
+  <p class="xs sub" style="margin-top:7px"><code class="mn">-Z</code> es el flag clave:
+    <em>treat zero as missing</em>. Sin él, Apriori genera reglas sobre la <b>ausencia</b> de productos
+    ("quien no lleva X, no lleva Y"), que son ciertas y completamente inútiles.</p>
+
+  <div class="note w">
+    <b>Un detalle que casi nos come.</b> Al rankear por lift (<code class="mn">-T 1</code>) con pocas
+    reglas pedidas, Weka corta la búsqueda apenas junta esa cantidad — y se detiene en un soporte alto.
+    La regla más fuerte de todo el dataset (lift 14,26, soporte 0,018) <b>quedaba afuera del ranking</b>
+    hasta que forzamos el piso con <code class="mn">-M 0.01 -U 0.05 -N 200</code>.
+    El ranking por lift no sirve de nada si el piso de soporte deja la regla fuera de la búsqueda.
+  </div>
+</section>
+
+<section id="hallazgo">
+  <div class="eb">06 · Fase 2</div>
+  <h2>El hallazgo metodológico</h2>
+  <p class="prose sub">Aplicamos los seis pasos de curaduría. El cuarto (mecanismo plausible) y el sexto
+    (validar en otro período) dieron el mismo resultado, por separado.</p>
+
+  <div class="prose">
+    <p>Dividimos las reglas en dos grupos según un criterio puramente cualitativo: <b>¿existe una
+      explicación de negocio para esta combinación?</b> Después, sin mirar ese grupo, recalculamos el
+      lift por separado en 2024 y en 2025.</p>
+  </div>
+
+  <div class="mx">
+    <table>
+      <thead><tr><th>Grupo</th><th>Ejemplo</th><th class="n">Lift total</th><th class="n">2024</th><th class="n">2025</th><th class="n">Variación</th></tr></thead>
+      <tbody>
+        <tr><td class="r" style="color:var(--ok)">Con mecanismo</td><td class="w">Gaseosa Lima-Limón + Cerveza Negra</td>
+          <td class="n">14,26</td><td class="n">14,08</td><td class="n">14,45</td><td class="n"><span class="delta y">+2,6 %</span></td></tr>
+        <tr><td class="r" style="color:var(--ok)">Con mecanismo</td><td class="w">Agua Saborizada + Jugo Naranja</td>
+          <td class="n">5,47</td><td class="n">5,40</td><td class="n">5,53</td><td class="n"><span class="delta y">+2,5 %</span></td></tr>
+        <tr><td class="r" style="color:var(--bd)">Sin mecanismo</td><td class="w">Palitos Helados + Detergente</td>
+          <td class="n">7,45</td><td class="n">10,31</td><td class="n">5,86</td><td class="n"><span class="delta b">−43,2 %</span></td></tr>
+        <tr><td class="r" style="color:var(--bd)">Sin mecanismo</td><td class="w">Manteca + Lavandina</td>
+          <td class="n">5,57</td><td class="n">8,13</td><td class="n">4,07</td><td class="n"><span class="delta b">−49,9 %</span></td></tr>
+        <tr><td class="r" style="color:var(--bd)">Sin mecanismo</td><td class="w">Palitos Helados + Hamburguesas</td>
+          <td class="n">3,17</td><td class="n">0,08</td><td class="n">4,52</td><td class="n"><span class="delta b">+5.217 %</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note o">
+    <b>Las once reglas con mecanismo plausible varían menos del 12 % entre años. Ninguna de las
+    implausibles baja del 29 %.</b> Dos criterios independientes —uno cualitativo, uno estadístico—
+    señalaron el mismo conjunto. Eso es lo que convierte una lista de correlaciones en un hallazgo.
+  </div>
+
+  <div class="note b">
+    <b>Y las variaciones extremas dicen otra cosa.</b> <code class="mn">Palitos + Hamburguesas</code>
+    pasa de lift 0,08 a 4,52, y <code class="mn">Detergente + Lavandina</code> de 0,18 a 4,44.
+    Un lift menor a 1 significa que se compraban <em>separados</em>. Un salto así no es un cambio de
+    hábito de los clientes: es un <b>cambio estructural en cómo se generaron los datos</b> entre un año
+    y el otro. Presentar eso como un descubrimiento comercial sería el error más grave posible.
+  </div>
+</section>
+
+<section id="curadas">
+  <div class="eb">07 · Fase 2</div>
+  <h2>Las siete reglas curadas</h2>
+  <p class="prose sub">Lo que quedó de las 53, ordenado por lift descendente, con su recomendación.</p>
+
+  <div class="mx">
+    <table>
+      <thead><tr><th>Regla</th><th>Lift</th><th class="n">Soporte</th><th class="n">Conf.</th>
+        <th class="n">Δ 24→25</th><th>Recomendación de negocio</th></tr></thead>
+      <tbody>
+        <tr><td class="r">Gaseosa Lima-Limón ↔ Cerveza Negra</td>
+          <td><span class="lift"><span class="liftbar"><i style="width:98%"></i><b style="left:6.9%"></b></span><span class="liftv">14,26</span></span></td>
+          <td class="n">0,0179</td><td class="n">52,7 %</td><td class="n"><span class="delta y">+2,6 %</span></td>
+          <td class="w">Punta de góndola de fin de semana con las dos juntas. Es el combo de previa.</td></tr>
+        <tr><td class="r">Agua Mineral ↔ Yerba Mate 500g</td>
+          <td><span class="lift"><span class="liftbar"><i style="width:59%"></i><b style="left:6.9%"></b></span><span class="liftv">8,60</span></span></td>
+          <td class="n">0,0113</td><td class="n">45,0 %</td><td class="n"><span class="delta y">+5,1 %</span></td>
+          <td class="w">Ubicar el agua sin gas cerca de la yerba, no en la heladera de bebidas.</td></tr>
+        <tr><td class="r">Agua Mineral ↔ Cerveza Negra</td>
+          <td><span class="lift"><span class="liftbar"><i style="width:39%"></i><b style="left:6.9%"></b></span><span class="liftv">5,61</span></span></td>
+          <td class="n">0,0108</td><td class="n">29,3 %</td><td class="n"><span class="delta y">+5,9 %</span></td>
+          <td class="w">Carga de bebidas en un mismo viaje: conviene el pack mixto.</td></tr>
+        <tr><td class="r">Agua Saborizada ↔ Cerveza Rubia</td>
+          <td><span class="lift"><span class="liftbar"><i style="width:38%"></i><b style="left:6.9%"></b></span><span class="liftv">5,54</span></span></td>
+          <td class="n">0,0437</td><td class="n">49,0 %</td><td class="n"><span class="delta y">+2,6 %</span></td>
+          <td class="w">Soporte alto y estable: es la combinación de bebidas más frecuente del catálogo.</td></tr>
+        <tr><td class="r">Gaseosa Cola ↔ Yerba Mate 1kg</td>
+          <td><span class="lift"><span class="liftbar"><i style="width:38%"></i><b style="left:6.9%"></b></span><span class="liftv">5,49</span></span></td>
+          <td class="n">0,0325</td><td class="n">63,5 %</td><td class="n"><span class="delta y">+2,8 %</span></td>
+          <td class="w">Compra de reposición del hogar. Promo cruzada en el ticket.</td></tr>
+        <tr><td class="r">Agua Saborizada ↔ Jugo Naranja</td>
+          <td><span class="lift"><span class="liftbar"><i style="width:38%"></i><b style="left:6.9%"></b></span><span class="liftv">5,47</span></span></td>
+          <td class="n">0,0355</td><td class="n">48,4 %</td><td class="n"><span class="delta y">+2,5 %</span></td>
+          <td class="w">Ambas sin alcohol: misma decisión de compra. Exhibir contiguas.</td></tr>
+        <tr><td class="r">Galletitas Dulces ↔ Leche Entera</td>
+          <td><span class="lift"><span class="liftbar"><i style="width:29%"></i><b style="left:6.9%"></b></span><span class="liftv">4,26</span></span></td>
+          <td class="n">0,0915</td><td class="n">64,1 %</td><td class="n"><span class="delta y">+11,2 %</span></td>
+          <td class="w"><b>El mayor soporte de todas (9,2 %).</b> Desayuno y merienda: nunca liquidar las dos a la vez.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="xs sub" style="margin-top:8px">La marca vertical de cada barra es el lift = 1, o sea el azar.
+    La confianza mostrada es la de la dirección más fuerte de cada par.</p>
+</section>
+
+<section id="descartes">
+  <div class="eb">08 · Fase 2</div>
+  <h2>Los descartes</h2>
+  <p class="prose sub">Un renglón por regla, como pide el enunciado. Ordenados por el paso que las eliminó.</p>
+
+  <div class="mx">
+    <table>
+      <thead><tr><th>Regla descartada</th><th class="n">Lift</th><th>Paso</th><th>Por qué</th></tr></thead>
+      <tbody>
+        <tr><td class="r">Hamburguesas + Detergente → Palitos + Lavandina</td><td class="n">36,87</td>
+          <td><span class="badge w">2 · redundante</span></td>
+          <td class="w">Es la combinación de dos pares ya presentes en la lista. No aporta información nueva.</td></tr>
+        <tr><td class="r">Galletitas + Caramelos → Mermelada + Leche</td><td class="n">33,79</td>
+          <td><span class="badge w">2 · redundante</span></td>
+          <td class="w">Ídem: cuatro ítems del mismo cluster. El lift altísimo es un artefacto de combinar correlaciones.</td></tr>
+        <tr><td class="r">Agua Saborizada + Yerba → Cerveza Rubia</td><td class="n">11,20</td>
+          <td><span class="badge b">4 · implausible</span></td>
+          <td class="w">Confianza 1,00 exacta: los 731 tickets sin excepción. Demasiado perfecto — es artefacto de los datos.</td></tr>
+        <tr><td class="r">Mermelada ↔ Caramelos</td><td class="n">8,44</td>
+          <td><span class="badge b">6 · inestable</span></td>
+          <td class="w">Mecanismo débil (ambos dulces) y cae 34 % entre 2024 y 2025.</td></tr>
+        <tr><td class="r">Palitos Helados ↔ Detergente</td><td class="n">7,45</td>
+          <td><span class="badge b">4 · implausible</span></td>
+          <td class="w">Congelados con Limpieza: ninguna explicación. Además cae 43 %.</td></tr>
+        <tr><td class="r">Dulce de Leche ↔ Jabón en Polvo</td><td class="n">6,98</td>
+          <td><span class="badge b">4 · implausible</span></td>
+          <td class="w">Lácteos con Limpieza. Salta 61 % entre años.</td></tr>
+        <tr><td class="r">Hamburguesas ↔ Lavandina</td><td class="n">5,60</td>
+          <td><span class="badge b">4 · implausible</span></td>
+          <td class="w">Congelados con Limpieza otra vez. Varía 29 %.</td></tr>
+        <tr><td class="r">Manteca ↔ Lavandina</td><td class="n">5,57</td>
+          <td><span class="badge b">6 · inestable</span></td>
+          <td class="w">Cae a la mitad (−50 %).</td></tr>
+        <tr><td class="r">Aceite Girasol ↔ Yogur Bebible</td><td class="n">5,07</td>
+          <td><span class="badge b">4 · implausible</span></td>
+          <td class="w">Sin relación de uso ni de ocasión de consumo.</td></tr>
+        <tr><td class="r">Alfajor ↔ Galletitas Dulces</td><td class="n">1,70</td>
+          <td><span class="badge w">3 · lift bajo</span></td>
+          <td class="w">Confianza 25,6 % que parece buena, pero las galletitas están en el 15 % de los tickets igual.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note b">
+    <b>El descarte más valioso: Palitos Helados → Detergente.</b> Lift 7,45 —el cuarto más alto de todo
+    el dataset— y ninguna explicación de negocio posible. Si el criterio fuera solamente "ordenar por
+    lift y quedarse con las de arriba", esta regla entraría a la presentación, y MiniRed terminaría
+    poniendo detergente al lado de la heladera de helados. <b>Un número alto no es un hallazgo.</b>
+  </div>
+</section>
+
+<section id="fp">
+  <div class="eb">09 · Plus opcional</div>
+  <h2>FP-Growth contra Apriori</h2>
+  <p class="prose sub">Mismo archivo, mismos parámetros, distinto algoritmo.</p>
+
+  <div class="mx">
+    <table>
+      <thead><tr><th>Algoritmo</th><th class="n">Tiempo</th><th>Estrategia</th><th>¿Mismas reglas?</th></tr></thead>
+      <tbody>
+        <tr><td class="r">Apriori</td><td class="n">3,29 s</td>
+          <td class="w">Genera candidatos por nivel y los cuenta recorriendo los datos en cada ciclo (99 ciclos).</td>
+          <td><span class="badge y">—</span></td></tr>
+        <tr><td class="r">FP-Growth</td><td class="n" style="color:var(--ok);font-weight:700">0,48 s</td>
+          <td class="w">Comprime los datos en un árbol de prefijos y extrae los patrones sin generar candidatos.</td>
+          <td><span class="badge y">SÍ, IDÉNTICAS</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="prose sm" style="margin-top:11px"><b>FP-Growth fue 6,9 veces más rápido</b> y devolvió exactamente
+    las mismas reglas con los mismos valores: <code class="mn">Gaseosa Lima-Limón → Cerveza Negra</code>
+    con lift 14,26 en los dos. La diferencia es de eficiencia, no de resultado — que es justamente lo que
+    uno espera: son dos formas de calcular lo mismo.</p>
+</section>
+
+<section id="guion">
+  <div class="eb">10 · Exposición</div>
+  <h2>Guion: dos personas, cinco minutos cada una</h2>
+  <p class="prose sub">El enunciado pide mostrar <b>una</b> regla curada y cómo se llegó a ella.
+    El corte natural es: uno cuenta cómo se construyó la evidencia, el otro qué se hizo con ella.</p>
+
+  <h3>Persona 1 — De la base de datos a 53 reglas</h3>
+  <div class="script">
+    <div class="t">0:00<br>1:00</div>
+    <div class="c"><b>El problema</b>
+      <p>MiniRed tiene 220.465 tickets y no sabe qué se compra junto. Mostrar la tabla
+        <code class="mn">Fact_Ventas</code> en pantalla.</p>
+      <div class="say">"Esto es lo que hay: una fila por línea de ticket. Nadie sabe qué productos viajan juntos en la misma bolsa."</div></div>
+
+    <div class="t">1:00<br>2:30</div>
+    <div class="c"><b>La preparación — y la decisión que la define</b>
+      <p>Mostrar la transformación de grano de línea a grano de canasta. Contar el filtro del 69 %.</p>
+      <div class="say">"El 69 % de los tickets tiene un solo producto. Esos no pueden generar ninguna regla, pero hunden todos los soportes. Los sacamos: quedaron 67.521."</div></div>
+
+    <div class="t">2:30<br>3:30</div>
+    <div class="c"><b>Las tres métricas, con la regla estrella</b>
+      <p>Desarrollar el cálculo de Gaseosa Lima-Limón → Cerveza Negra en pantalla.</p>
+      <div class="say">"La cerveza está en el 3,7 % de los tickets. Pero entre los que llevan esta gaseosa, en el 52,7 %. Catorce veces más probable. Eso es el lift."</div></div>
+
+    <div class="t">3:30<br>4:15</div>
+    <div class="c"><b>La verificación manual</b>
+      <p>Mostrar la tabla SQL vs. Weka. Enfatizar que son dos caminos independientes.</p>
+      <div class="say">"Calculamos tres reglas a mano en SQL y las comparamos contra Weka. Coinciden hasta el segundo decimal: la matriz está bien armada."</div></div>
+
+    <div class="t">4:15<br>5:00</div>
+    <div class="c"><b>Las dos corridas — y el pase</b>
+      <p>Captura de Weka con 8 reglas y con 53.</p>
+      <div class="say">"Bajamos el soporte de 0,05 a 0,01 y las reglas pasaron de 8 a 53. Con 30 productos. En una cadena real serían decenas de miles. Y acá empieza la parte difícil, que la cuenta [nombre]."</div></div>
+  </div>
+
+  <h3>Persona 2 — De 53 reglas a un hallazgo</h3>
+  <div class="script">
+    <div class="t">0:00<br>1:00</div>
+    <div class="c"><b>El problema inverso</b>
+      <p>Mostrar las 53 reglas en crudo, ordenadas por lift.</p>
+      <div class="say">"Tenemos 53 reglas, todas estadísticamente ciertas. Y la mayoría no sirve para nada. El algoritmo ya hizo su trabajo; ahora hace falta criterio."</div></div>
+
+    <div class="t">1:00<br>2:00</div>
+    <div class="c"><b>El descarte estrella</b>
+      <p>Mostrar <code class="mn">Palitos Helados → Detergente</code>, lift 7,45.</p>
+      <div class="say">"Cuarta regla más fuerte del dataset. Y no hay ninguna explicación de por qué alguien compraría helado con detergente. Si ordenábamos por lift y listo, esta entraba a la presentación."</div></div>
+
+    <div class="t">2:00<br>3:15</div>
+    <div class="c"><b>El hallazgo metodológico</b>
+      <p>Mostrar la tabla de estabilidad 2024 vs. 2025. Este es el momento fuerte de toda la exposición.</p>
+      <div class="say">"Separamos las reglas por si tenían explicación de negocio, sin mirar los números. Después recalculamos el lift por año. Las que tenían explicación varían menos del 12 %. Las que no, entre −50 % y +5.000 %. Los dos criterios dieron el mismo conjunto."</div></div>
+
+    <div class="t">3:15<br>4:15</div>
+    <div class="c"><b>La regla que se lleva a la gerencia</b>
+      <p>Gaseosa Lima-Limón ↔ Cerveza Negra: lift 14,26, estable (+2,6 %), con mecanismo claro.</p>
+      <div class="say">"Lift 14, se sostiene los dos años, y tiene una explicación que cualquiera entiende. Recomendación: punta de góndola de fin de semana con las dos juntas."</div></div>
+
+    <div class="t">4:15<br>5:00</div>
+    <div class="c"><b>El cierre honesto</b>
+      <p>Mencionar el salto de lift 0,08 a 4,52 como límite del análisis.</p>
+      <div class="say">"Una advertencia: hay pares que pasan de lift 0,08 a 4,52 entre un año y otro. Eso no es un cambio de hábito, es un cambio en cómo se generaron los datos. Lo dejamos afuera en vez de venderlo como descubrimiento."</div></div>
+  </div>
+
+  <div class="note">
+    <b>Si sobra tiempo</b>, el comodín es FP-Growth: 6,9 veces más rápido, mismas reglas.
+    Cierra bien porque muestra que se probó una alternativa.
+  </div>
+</section>
+
+<section id="ia">
+  <div class="eb">11 · Fase 3</div>
+  <h2>El rol de la IA</h2>
+  <p class="prose sub">El enunciado pide declarar qué generó la IA y qué hubo que corregir. Esto es lo que pasó.</p>
+
+  <div class="grid g2">
+    <div class="card"><div class="kk">Qué hizo la IA</div>
+      <ul style="margin-top:2px">
+        <li>La consulta SQL de la matriz transaccional y el script que genera el <code class="mn">.arff</code></li>
+        <li>El cálculo de verificación de soporte, confianza y lift en SQL</li>
+        <li>Los comandos de Weka y el diseño de esta página</li>
+      </ul></div>
+    <div class="card"><div class="kk">Qué hubo que corregir</div>
+      <ul style="margin-top:2px">
+        <li><b>El agrupamiento por <code class="mn">IdVenta</code></b>: seguir el enunciado al pie daba canastas de un ítem</li>
+        <li><b>El ranking por lift truncado</b>: Weka cortaba en soporte alto y escondía la mejor regla</li>
+        <li><b>Un pipeline de PowerShell</b> que truncó una salida de Weka y la dejó vacía</li>
+      </ul></div>
+  </div>
+
+  <div class="note w">
+    <b>Dónde confiar ciegamente habría sido un riesgo.</b> Si la IA hubiera inventado los valores de
+    soporte y lift, no había forma de notarlo: los números habrían sido plausibles. Por eso todo el
+    trabajo se apoya en <b>dos cálculos independientes</b> —SQL sobre la base y Weka sobre el
+    <code class="mn">.arff</code>— que coinciden hasta el segundo decimal.
+    Un número que no se puede reproducir por dos caminos no entra al informe.
+  </div>
+</section>
+
+<section id="falta">
+  <div class="eb">12</div>
+  <h2>Qué falta hacer</h2>
+  <div class="card">
+    <div class="status n"><span class="m">▸</span><div><b>Las capturas de pantalla de Weka</b>
+      <p>El enunciado las exige explícitamente. Abrir Weka → <code class="mn">Explorer</code> →
+        <code class="mn">Open file</code> → <code class="mn">minired_canasta.arff</code> →
+        <code class="mn">Associate</code> → <code class="mn">Apriori</code>, poner
+        <code class="mn">treatZeroAsMissing = True</code>, y correr con soporte 0,05 y con 0,01.
+        Los resultados van a ser idénticos a los de acá: ya se corrió por línea de comandos.</p></div></div>
+    <div class="status n"><span class="m">▸</span><div><b>La reflexión individual (Fase 4)</b>
+      <p>Media página por integrante. Las tres preguntas: tiempo en preparación vs. algoritmo, con cuál de las
+        seis advertencias estuvieron más cerca de tropezar, y el riesgo de confiar en la IA.
+        <b>La escribe cada uno</b> — no se delega.</p></div></div>
+    <div class="status n"><span class="m">▸</span><div><b>Armar el informe de 6 páginas</b>
+      <p>Con las capturas y los cálculos a mano. El contenido está todo acá.</p></div></div>
+  </div>
+
+  <div class="note o">
+    <b>Para la reflexión, un dato real de este trabajo:</b> la preparación de datos llevó
+    aproximadamente el 80 % del tiempo. Las dos corridas de Apriori tardaron <b>4,5 segundos sumadas</b>.
+    Es exactamente lo que dice la teoría de la Unidad 4, medido con reloj.
+  </div>
+</section>
+
+<footer>
+  Todos los números salieron de dos fuentes independientes: consultas SQL sobre
+  <code class="mn">MiniRed_DW</code> (67.521 transacciones con 2 o más ítems, 30 productos, 2024–2025)
+  y corridas reales de Weka 3.8.7 sobre <code class="mn">minired_canasta.arff</code>.
+  Las salidas completas están en <code class="mn">MiniRed_Apriori\weka_salidas</code>.
+  Ningún valor de soporte, confianza o lift fue estimado.
+</footer>
+
+</main>
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+﻿
+Apriori
+=======
+
+Minimum support: 0.04 (1341 instances)
+Minimum metric <lift>: 1.5
+Number of cycles performed: 96
+
+Generated sets of large itemsets:
+
+Size of set of large itemsets L(1): 26
+
+Size of set of large itemsets L(2): 7
+
+Best rules found:
+
+ 1. Palitos_Helados_x6=1 2481 ==> Detergente_750ml=1 1483    conf:(0.6) < lift:(10.31)> lev:(0.04) [1339] conv:(2.34)
+ 2. Detergente_750ml=1 1943 ==> Palitos_Helados_x6=1 1483    conf:(0.76) < lift:(10.31)> lev:(0.04) [1339] conv:(3.9)
+ 3. Cerveza_Rubia_1L=1 3033 ==> Agua_Saborizada_1_5L=1 1474    conf:(0.49) < lift:(5.47)> lev:(0.04) [1204] conv:(1.77)
+ 4. Agua_Saborizada_1_5L=1 2980 ==> Cerveza_Rubia_1L=1 1474    conf:(0.49) < lift:(5.47)> lev:(0.04) [1204] conv:(1.8)
+ 5. Arroz_Largo_Fino_1kg=1 2314 ==> Leche_Entera_1L=1 1431    conf:(0.62) < lift:(4.95)> lev:(0.03) [1141] conv:(2.29)
+ 6. Leche_Entera_1L=1 4191 ==> Arroz_Largo_Fino_1kg=1 1431    conf:(0.34) < lift:(4.95)> lev:(0.03) [1141] conv:(1.41)
+ 7. Hamburguesas_Cong_x4=1 3499 ==> Queso_Cremoso_500g=1 1477    conf:(0.42) < lift:(4.83)> lev:(0.03) [1171] conv:(1.58)
+ 8. Queso_Cremoso_500g=1 2931 ==> Hamburguesas_Cong_x4=1 1477    conf:(0.5) < lift:(4.83)> lev:(0.03) [1171] conv:(1.8)
+ 9. Cerveza_Rubia_1L=1 3033 ==> Yerba_Mate_1kg=1 1531    conf:(0.5) < lift:(4.31)> lev:(0.04) [1176] conv:(1.78)
+10. Yerba_Mate_1kg=1 3921 ==> Cerveza_Rubia_1L=1 1531    conf:(0.39) < lift:(4.31)> lev:(0.04) [1176] conv:(1.49)
+
+=== Evaluation ===
+
+Elapsed time: 1.49s
+

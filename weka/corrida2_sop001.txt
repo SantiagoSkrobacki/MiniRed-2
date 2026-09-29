@@ -1,0 +1,78 @@
+﻿
+Apriori
+=======
+
+Minimum support: 0.01 (675 instances)
+Minimum metric <confidence>: 0.5
+Number of cycles performed: 99
+
+Generated sets of large itemsets:
+
+Size of set of large itemsets L(1): 29
+
+Size of set of large itemsets L(2): 57
+
+Size of set of large itemsets L(3): 12
+
+Size of set of large itemsets L(4): 2
+
+Best rules found:
+
+  1. Agua_Saborizada_1_5L=1 Yerba_Mate_1kg=1 731 ==> Cerveza_Rubia_1L=1 731    <conf:(1)> lift:(11.2) lev:(0.01) [665] conv:(665.72)
+  2. Palitos_Helados_x6=1 Hamburguesas_Cong_x4=1 Lavandina_1L=1 1615 ==> Detergente_750ml=1 1602    <conf:(0.99)> lift:(10.55) lev:(0.02) [1450] conv:(104.51)
+  3. Mermelada_Durazno_390g=1 Caramelos_Surtidos_100g=1 Leche_Entera_1L=1 1545 ==> Galletitas_Dulces_300g=1 1528    <conf:(0.99)> lift:(6.56) lev:(0.02) [1295] conv:(72.9)
+  4. Palitos_Helados_x6=1 Lavandina_1L=1 1664 ==> Detergente_750ml=1 1643    <conf:(0.99)> lift:(10.5) lev:(0.02) [1486] conv:(68.53)
+  5. Mermelada_Durazno_390g=1 Leche_Entera_1L=1 1601 ==> Galletitas_Dulces_300g=1 1574    <conf:(0.98)> lift:(6.53) lev:(0.02) [1332] conv:(48.56)
+  6. Palitos_Helados_x6=1 Hamburguesas_Cong_x4=1 Detergente_750ml=1 1642 ==> Lavandina_1L=1 1602    <conf:(0.98)> lift:(9.55) lev:(0.02) [1434] conv:(35.96)
+  7. Palitos_Helados_x6=1 Detergente_750ml=1 Lavandina_1L=1 1643 ==> Hamburguesas_Cong_x4=1 1602    <conf:(0.98)> lift:(8.45) lev:(0.02) [1412] conv:(34.6)
+  8. Mermelada_Durazno_390g=1 Galletitas_Dulces_300g=1 Leche_Entera_1L=1 1574 ==> Caramelos_Surtidos_100g=1 1528    <conf:(0.97)> lift:(11.14) lev:(0.02) [1390] conv:(30.57)
+  9. Palitos_Helados_x6=1 Lavandina_1L=1 1664 ==> Hamburguesas_Cong_x4=1 1615    <conf:(0.97)> lift:(8.41) lev:(0.02) [1422] conv:(29.44)
+ 10. Mermelada_Durazno_390g=1 Leche_Entera_1L=1 1601 ==> Caramelos_Surtidos_100g=1 1545    <conf:(0.97)> lift:(11.07) lev:(0.02) [1405] conv:(25.64)
+ 11. Palitos_Helados_x6=1 Lavandina_1L=1 1664 ==> Hamburguesas_Cong_x4=1 Detergente_750ml=1 1602    <conf:(0.96)> lift:(36.87) lev:(0.02) [1558] conv:(25.72)
+ 12. Hamburguesas_Cong_x4=1 Detergente_750ml=1 Lavandina_1L=1 1671 ==> Palitos_Helados_x6=1 1602    <conf:(0.96)> lift:(9.49) lev:(0.02) [1433] conv:(21.46)
+ 13. Mermelada_Durazno_390g=1 Leche_Entera_1L=1 1601 ==> Galletitas_Dulces_300g=1 Caramelos_Surtidos_100g=1 1528    <conf:(0.95)> lift:(33.79) lev:(0.02) [1482] conv:(21.02)
+ 14. Hamburguesas_Cong_x4=1 Detergente_750ml=1 1763 ==> Lavandina_1L=1 1671    <conf:(0.95)> lift:(9.28) lev:(0.02) [1490] conv:(17.02)
+ 15. Galletitas_Dulces_300g=1 Caramelos_Surtidos_100g=1 1907 ==> Leche_Entera_1L=1 1794    <conf:(0.94)> lift:(6.59) lev:(0.02) [1521] conv:(14.34)
+ 16. Mermelada_Durazno_390g=1 Galletitas_Dulces_300g=1 Caramelos_Surtidos_100g=1 1636 ==> Leche_Entera_1L=1 1528    <conf:(0.93)> lift:(6.55) lev:(0.02) [1294] conv:(12.87)
+ 17. Manteca_200g=1 Hamburguesas_Cong_x4=1 1153 ==> Lavandina_1L=1 1075    <conf:(0.93)> lift:(9.12) lev:(0.01) [957] conv:(13.1)
+ 18. Hamburguesas_Cong_x4=1 Detergente_750ml=1 1763 ==> Palitos_Helados_x6=1 1642    <conf:(0.93)> lift:(9.22) lev:(0.02) [1463] conv:(12.99)
+ 19. Hamburguesas_Cong_x4=1 Detergente_750ml=1 1763 ==> Palitos_Helados_x6=1 Lavandina_1L=1 1602    <conf:(0.91)> lift:(36.87) lev:(0.02) [1558] conv:(10.61)
+ 20. Galletitas_Dulces_300g=1 Caramelos_Surtidos_100g=1 1907 ==> Mermelada_Durazno_390g=1 1636    <conf:(0.86)> lift:(10.6) lev:(0.02) [1481] conv:(6.44)
+ 21. Galletitas_Dulces_300g=1 Caramelos_Surtidos_100g=1 Leche_Entera_1L=1 1794 ==> Mermelada_Durazno_390g=1 1528    <conf:(0.85)> lift:(10.52) lev:(0.02) [1382] conv:(6.18)
+ 22. Arroz_Largo_Fino_1kg=1 Galletitas_Dulces_300g=1 1845 ==> Leche_Entera_1L=1 1550    <conf:(0.84)> lift:(5.89) lev:(0.02) [1286] conv:(5.34)
+ 23. Galletitas_Dulces_300g=1 Caramelos_Surtidos_100g=1 1907 ==> Mermelada_Durazno_390g=1 Leche_Entera_1L=1 1528    <conf:(0.8)> lift:(33.79) lev:(0.02) [1482] conv:(4.9)
+ 24. Detergente_750ml=1 6348 ==> Palitos_Helados_x6=1 4778    <conf:(0.75)> lift:(7.45) lev:(0.06) [4136] conv:(3.63)
+ 25. Mermelada_Durazno_390g=1 Galletitas_Dulces_300g=1 2206 ==> Caramelos_Surtidos_100g=1 1636    <conf:(0.74)> lift:(8.51) lev:(0.02) [1443] conv:(3.53)
+ 26. Mermelada_Durazno_390g=1 5466 ==> Caramelos_Surtidos_100g=1 4023    <conf:(0.74)> lift:(8.44) lev:(0.05) [3546] conv:(3.46)
+ 27. Caramelos_Surtidos_100g=1 Leche_Entera_1L=1 2474 ==> Galletitas_Dulces_300g=1 1794    <conf:(0.73)> lift:(4.81) lev:(0.02) [1421] conv:(3.09)
+ 28. Mermelada_Durazno_390g=1 Galletitas_Dulces_300g=1 2206 ==> Leche_Entera_1L=1 1574    <conf:(0.71)> lift:(5) lev:(0.02) [1259] conv:(2.99)
+ 29. Palitos_Helados_x6=1 6822 ==> Detergente_750ml=1 4778    <conf:(0.7)> lift:(7.45) lev:(0.06) [4136] conv:(3.02)
+ 30. Mermelada_Durazno_390g=1 Galletitas_Dulces_300g=1 2206 ==> Caramelos_Surtidos_100g=1 Leche_Entera_1L=1 1528    <conf:(0.69)> lift:(18.9) lev:(0.02) [1447] conv:(3.13)
+ 31. Caramelos_Surtidos_100g=1 5886 ==> Mermelada_Durazno_390g=1 4023    <conf:(0.68)> lift:(8.44) lev:(0.05) [3546] conv:(2.9)
+ 32. Detergente_750ml=1 Lavandina_1L=1 2464 ==> Hamburguesas_Cong_x4=1 1671    <conf:(0.68)> lift:(5.88) lev:(0.02) [1386] conv:(2.75)
+ 33. Detergente_750ml=1 Lavandina_1L=1 2464 ==> Palitos_Helados_x6=1 1643    <conf:(0.67)> lift:(6.6) lev:(0.02) [1394] conv:(2.69)
+ 34. Palitos_Helados_x6=1 Hamburguesas_Cong_x4=1 2498 ==> Detergente_750ml=1 1642    <conf:(0.66)> lift:(6.99) lev:(0.02) [1407] conv:(2.64)
+ 35. Detergente_750ml=1 Lavandina_1L=1 2464 ==> Palitos_Helados_x6=1 Hamburguesas_Cong_x4=1 1602    <conf:(0.65)> lift:(17.57) lev:(0.02) [1510] conv:(2.75)
+ 36. Lavandina_1L=1 6899 ==> Hamburguesas_Cong_x4=1 4463    <conf:(0.65)> lift:(5.6) lev:(0.05) [3666] conv:(2.5)
+ 37. Palitos_Helados_x6=1 Hamburguesas_Cong_x4=1 2498 ==> Lavandina_1L=1 1615    <conf:(0.65)> lift:(6.33) lev:(0.02) [1359] conv:(2.54)
+ 38. Palitos_Helados_x6=1 Hamburguesas_Cong_x4=1 2498 ==> Detergente_750ml=1 Lavandina_1L=1 1602    <conf:(0.64)> lift:(17.57) lev:(0.02) [1510] conv:(2.68)
+ 39. Leche_Entera_1L=1 9633 ==> Galletitas_Dulces_300g=1 6177    <conf:(0.64)> lift:(4.26) lev:(0.07) [4725] conv:(2.37)
+ 40. Gaseosa_Cola_2_25L=1 3451 ==> Yerba_Mate_1kg=1 2193    <conf:(0.64)> lift:(5.49) lev:(0.03) [1793] conv:(2.42)
+ 41. Caramelos_Surtidos_100g=1 Leche_Entera_1L=1 2474 ==> Mermelada_Durazno_390g=1 1545    <conf:(0.62)> lift:(7.71) lev:(0.02) [1344] conv:(2.44)
+ 42. Caramelos_Surtidos_100g=1 Leche_Entera_1L=1 2474 ==> Mermelada_Durazno_390g=1 Galletitas_Dulces_300g=1 1528    <conf:(0.62)> lift:(18.9) lev:(0.02) [1447] conv:(2.53)
+ 43. Galletitas_Dulces_300g=1 10172 ==> Leche_Entera_1L=1 6177    <conf:(0.61)> lift:(4.26) lev:(0.07) [4725] conv:(2.18)
+ 44. Hamburguesas_Cong_x4=1 7794 ==> Lavandina_1L=1 4463    <conf:(0.57)> lift:(5.6) lev:(0.05) [3666] conv:(2.1)
+ 45. Manteca_200g=1 3529 ==> Lavandina_1L=1 2007    <conf:(0.57)> lift:(5.57) lev:(0.02) [1646] conv:(2.08)
+ 46. Arroz_Largo_Fino_1kg=1 5090 ==> Leche_Entera_1L=1 2826    <conf:(0.56)> lift:(3.89) lev:(0.03) [2099] conv:(1.93)
+ 47. Arroz_Largo_Fino_1kg=1 Leche_Entera_1L=1 2826 ==> Galletitas_Dulces_300g=1 1550    <conf:(0.55)> lift:(3.64) lev:(0.02) [1124] conv:(1.88)
+ 48. Manteca_200g=1 Lavandina_1L=1 2007 ==> Hamburguesas_Cong_x4=1 1075    <conf:(0.54)> lift:(4.64) lev:(0.01) [843] conv:(1.9)
+ 49. Gaseosa_Lima_Limon_2_25L=1 2297 ==> Cerveza_Negra_473ml=1 1210    <conf:(0.53)> lift:(14.26) lev:(0.02) [1125] conv:(2.03)
+ 50. Alfajor_Triple_70g=1 Leche_Entera_1L=1 1659 ==> Galletitas_Dulces_300g=1 870    <conf:(0.52)> lift:(3.48) lev:(0.01) [620] conv:(1.78)
+ 51. Jabon_en_Polvo_800g=1 3754 ==> Dulce_de_Leche_400g=1 1964    <conf:(0.52)> lift:(6.98) lev:(0.02) [1682] conv:(1.94)
+ 52. Cerveza_Rubia_1L=1 6030 ==> Yerba_Mate_1kg=1 3049    <conf:(0.51)> lift:(4.37) lev:(0.03) [2350] conv:(1.79)
+ 53. Jugo_Naranja_1L=1 4956 ==> Yerba_Mate_1kg=1 2480    <conf:(0.5)> lift:(4.32) lev:(0.03) [1906] conv:(1.77)
+
+=== Evaluation ===
+
+Elapsed time: 3.704s
+

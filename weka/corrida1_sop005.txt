@@ -1,0 +1,29 @@
+﻿
+Apriori
+=======
+
+Minimum support: 0.05 (3376 instances)
+Minimum metric <confidence>: 0.5
+Number of cycles performed: 19
+
+Generated sets of large itemsets:
+
+Size of set of large itemsets L(1): 26
+
+Size of set of large itemsets L(2): 4
+
+Best rules found:
+
+ 1. Detergente_750ml=1 6348 ==> Palitos_Helados_x6=1 4778    <conf:(0.75)> lift:(7.45) lev:(0.06) [4136] conv:(3.63)
+ 2. Mermelada_Durazno_390g=1 5466 ==> Caramelos_Surtidos_100g=1 4023    <conf:(0.74)> lift:(8.44) lev:(0.05) [3546] conv:(3.46)
+ 3. Palitos_Helados_x6=1 6822 ==> Detergente_750ml=1 4778    <conf:(0.7)> lift:(7.45) lev:(0.06) [4136] conv:(3.02)
+ 4. Caramelos_Surtidos_100g=1 5886 ==> Mermelada_Durazno_390g=1 4023    <conf:(0.68)> lift:(8.44) lev:(0.05) [3546] conv:(2.9)
+ 5. Lavandina_1L=1 6899 ==> Hamburguesas_Cong_x4=1 4463    <conf:(0.65)> lift:(5.6) lev:(0.05) [3666] conv:(2.5)
+ 6. Leche_Entera_1L=1 9633 ==> Galletitas_Dulces_300g=1 6177    <conf:(0.64)> lift:(4.26) lev:(0.07) [4725] conv:(2.37)
+ 7. Galletitas_Dulces_300g=1 10172 ==> Leche_Entera_1L=1 6177    <conf:(0.61)> lift:(4.26) lev:(0.07) [4725] conv:(2.18)
+ 8. Hamburguesas_Cong_x4=1 7794 ==> Lavandina_1L=1 4463    <conf:(0.57)> lift:(5.6) lev:(0.05) [3666] conv:(2.1)
+
+=== Evaluation ===
+
+Elapsed time: 0.809s
+

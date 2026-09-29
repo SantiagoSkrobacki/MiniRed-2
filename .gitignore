@@ -1,0 +1,62 @@
+# ============================================================================
+#  MiniRed-Apriori — repositorio PÚBLICO
+#  Regla general: si un archivo se puede regenerar, o si puede contener datos
+#  de la base más allá de lo que el TP necesita mostrar, no se versiona.
+# ============================================================================
+
+# --- Backups y archivos de base de datos ------------------------------------
+# Lo más importante de esta lista. MiniRed_DW contiene Dim_Cajero con nombres
+# de empleados; el análisis no los usa, pero un .bak subido por error los
+# publicaría enteros. Nunca commitear la base, solo datos derivados.
+*.bak
+*.trn
+*.mdf
+*.ldf
+*.ndf
+*.dacpac
+*.bacpac
+
+# --- Credenciales y configuración de conexión -------------------------------
+*.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.p12
+secrets*
+appsettings*.json
+connection*.config
+*.udl
+
+# --- Exports intermedios de sqlcmd ------------------------------------------
+# Se regeneran con scripts/00_exportar_desde_sqlserver.ps1 y pesan ~3,5 MB.
+# Los .arff de data/ sí se versionan: son el entregable y permiten repetir
+# las corridas de Weka sin tener SQL Server instalado.
+data/raw/*.txt
+!data/raw/.gitkeep
+
+# --- Weka -------------------------------------------------------------------
+*.model
+*.cost
+*.arff.gz
+weka/*.log
+experiment*.exp
+
+# --- Python -----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# --- Ofimática: temporales de Word/Excel al armar el informe ----------------
+~$*
+*.tmp
+
+# --- Sistema y editores -----------------------------------------------------
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
+*.swp
