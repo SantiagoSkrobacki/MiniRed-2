@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Guion de exposición · Cazadores de Patrones MiniRed</title>
+<style>
+@page{size:A4;margin:0}
+:root{--navy:#182544;--blue:#2b3a67;--sky:#dfe7fa;--cream:#f3f1eb;--paper:#fffefa;--ink:#171a20;--muted:#596171;--line:#d8dbe2;--green:#267244;--green-bg:#e7f3e9;--amber:#a45d08;--amber-bg:#fff0d8;--red:#a43b31;--red-bg:#fae8e5}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#d8d8d8;color:var(--ink);font-family:"Segoe UI",Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{position:relative;width:210mm;height:297mm;margin:0 auto 8mm;padding:15mm 16mm 14mm;background:var(--paper);overflow:hidden;page-break-after:always}
+.page:last-child{page-break-after:auto}
+.cover{padding:0;background:var(--navy);color:white}
+.cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:18mm 18mm}
+.cover-accent{position:absolute;right:-42mm;top:-26mm;width:125mm;height:125mm;border:20mm solid #31477c;border-radius:50%;opacity:.75}
+.cover-line{position:absolute;left:16mm;top:22mm;width:32mm;height:3px;background:#9db6f2}
+.cover-content{position:absolute;left:16mm;right:16mm;top:49mm}
+.kicker{font:700 8.5pt/1.3 Consolas,monospace;letter-spacing:1.7px;text-transform:uppercase;color:#aebfe9}
+.cover h1{max-width:160mm;margin:7mm 0 4mm;color:white;font-size:37pt;line-height:.98;letter-spacing:-1.4px}
+.cover .subtitle{max-width:142mm;color:#d8dfef;font-size:15pt;line-height:1.42}
+.cover-rule{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10mm;margin-top:22mm;padding:8mm;border:1px solid rgba(255,255,255,.18);border-left:4px solid #9db6f2;border-radius:0 4mm 4mm 0;background:rgba(255,255,255,.055)}
+.cover-rule strong{display:block;font-size:17pt;line-height:1.2}.cover-rule span{color:#bfc9df;font-size:9.5pt}
+.lift{font-size:28pt;font-weight:800;color:#aac1ff;text-align:right}.lift small{display:block;font:700 7pt Consolas,monospace;letter-spacing:1.2px;text-transform:uppercase;color:#9ba8c4}
+.cover-meta{position:absolute;left:16mm;right:16mm;bottom:18mm;display:flex;justify-content:space-between;align-items:end;padding-top:6mm;border-top:1px solid rgba(255,255,255,.18);color:#bec7d9;font-size:9.5pt}
+.cover-meta b{display:block;margin-bottom:1.5mm;color:white;font-size:11pt}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:7mm;padding-bottom:3mm;border-bottom:1px solid var(--line)}
+.header .brand{font-weight:800;color:var(--navy)}.header .part{font:700 7.5pt Consolas,monospace;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{margin:0;color:var(--navy);line-height:1.1;letter-spacing:-.25px}
+h1{font-size:25pt}h2{font-size:17pt}h3{font-size:11pt}
+.lead{max-width:165mm;margin:3mm 0 6mm;color:var(--muted);font-size:11pt;line-height:1.45}
+.label{font:700 7.5pt/1.3 Consolas,monospace;letter-spacing:1px;text-transform:uppercase;color:var(--blue)}
+.page-footer{position:absolute;left:16mm;right:16mm;bottom:7mm;display:flex;justify-content:space-between;padding-top:2.5mm;border-top:1px solid var(--line);color:#7b8290;font-size:7.5pt}
+.page-footer b{color:var(--navy)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}
+.card{padding:4mm;border:1px solid var(--line);border-radius:3mm;background:white;box-shadow:0 2mm 8mm -7mm rgba(24,37,68,.45)}
+.card.soft{background:#f6f7fa;box-shadow:none}.card.blue{border-color:#ccd6ee;background:#edf2fd}.card.green{border-color:#c9e2d0;background:var(--green-bg)}.card.amber{border-color:#efd3a8;background:var(--amber-bg)}
+.stat b{display:block;color:var(--navy);font-size:22pt;line-height:1}.stat span{display:block;margin-top:1mm;color:var(--muted);font-size:8.5pt}
+.timeline{margin-top:5mm}.slot{display:grid;grid-template-columns:23mm 32mm 1fr;gap:4mm;align-items:start;padding:3.2mm 0;border-bottom:1px solid var(--line)}.slot:last-child{border-bottom:0}
+.time{display:inline-block;padding:1.4mm 2mm;border-radius:1.5mm;background:var(--navy);color:white;font:700 8pt Consolas,monospace;text-align:center}
+.person{font-size:9pt;font-weight:700;color:var(--blue)}.slot strong{display:block;font-size:10pt}.slot p{margin:1mm 0 0;color:var(--muted);font-size:8.7pt;line-height:1.35}
+.handoff{margin-top:5mm;padding:4mm;border-left:3px solid var(--blue);background:var(--sky);font-size:9.5pt;line-height:1.4}
+.speaker-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:5mm}.speaker-badge{padding:2mm 3mm;border-radius:2mm;background:var(--navy);color:white;font-size:9pt;font-weight:700}.speaker-time{color:var(--muted);font:700 8pt Consolas,monospace}
+.script-block{margin-bottom:4mm;padding:4mm 4.5mm;border:1px solid var(--line);border-radius:3mm;background:white;page-break-inside:avoid}
+.script-top{display:flex;align-items:center;gap:3mm;margin-bottom:2.5mm}.script-top .time{min-width:25mm}.script-top h3{flex:1}
+.show{margin-bottom:2.5mm;color:var(--muted);font-size:8.4pt}.show b{color:var(--blue)}
+.say{margin:0;padding-left:4mm;border-left:2px solid #9fb1df;font-family:Georgia,"Times New Roman",serif;font-size:10.2pt;line-height:1.46}
+.cue{margin-top:2.5mm;color:var(--green);font-size:8.3pt;font-weight:700}.cue::before{content:"CLAVE · "}
+.dont{margin-top:4mm;padding:3.5mm;border-radius:2mm;background:var(--amber-bg);color:#6e430a;font-size:8.7pt;line-height:1.38}
+.script-page .header{margin-bottom:5mm}.script-page .speaker-head{margin-bottom:3.5mm}.script-page .script-block{margin-bottom:2.8mm;padding:3.2mm 4mm}.script-page .script-top{margin-bottom:1.8mm}.script-page .show{margin-bottom:1.8mm;font-size:8pt}.script-page .say{font-size:9.55pt;line-height:1.36}.script-page .cue{margin-top:1.8mm;font-size:8pt}.script-page .dont{margin-top:2mm;padding:2.5mm;font-size:8.2pt}
+.concept{margin-bottom:3.5mm;padding:4mm;border:1px solid var(--line);border-radius:3mm;background:white;page-break-inside:avoid}
+.concept h3{margin-bottom:1.5mm}.concept p,.concept li{margin:0;color:var(--muted);font-size:9.2pt;line-height:1.42}.concept ul{margin:1.5mm 0 0;padding-left:5mm}
+.formula{margin:2mm 0;padding:3mm;border-radius:2mm;background:var(--navy);color:white;font:700 10pt/1.45 Consolas,monospace;text-align:center}.formula .accent{color:#b7caff}
+.example{margin-top:2mm;padding:2.5mm 3mm;border-left:2px solid var(--green);background:var(--green-bg);color:#245b36;font-size:8.7pt;line-height:1.38}
+.metric{padding:4mm;border:1px solid var(--line);border-radius:3mm;background:white}.metric h3{font-size:13pt}.metric .question{margin:1mm 0 2mm;color:var(--blue);font-size:8.5pt;font-weight:700}.metric p{margin:0;color:var(--muted);font-size:8.8pt;line-height:1.38}
+.table{width:100%;border-collapse:collapse;margin-top:4mm;font-size:8.3pt}.table th,.table td{padding:2.4mm;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.table th{background:var(--navy);color:white;font-size:7.5pt;text-transform:uppercase;letter-spacing:.4px}.table tr:nth-child(even) td{background:#f6f7f9}.table .num{text-align:right;font-family:Consolas,monospace}
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:1.6mm;margin:4mm 0}.flow div{padding:2.5mm 1mm;border:1px solid var(--line);border-radius:2mm;background:white;text-align:center;color:var(--muted);font-size:7.4pt;line-height:1.25}.flow b{display:block;margin-bottom:1mm;color:var(--blue);font:700 8pt Consolas,monospace}
+.qa{display:grid;grid-template-columns:1fr 1fr;gap:3mm}.qa-item{padding:3.5mm;border:1px solid var(--line);border-radius:2.5mm;background:white;page-break-inside:avoid}.qa-item b{display:block;margin-bottom:1.5mm;color:var(--navy);font-size:9.3pt}.qa-item p{margin:0;color:var(--muted);font-size:8.4pt;line-height:1.36}
+.checklist{display:grid;grid-template-columns:1fr 1fr;gap:2mm 5mm;margin-top:3mm}.check{display:flex;gap:2mm;color:var(--muted);font-size:8.8pt}.check::before{content:"✓";color:var(--green);font-weight:800}
+.big-note{margin-top:5mm;padding:5mm;border-radius:3mm;background:var(--navy);color:white}.big-note b{display:block;margin-bottom:1.5mm;font-size:11pt}.big-note p{margin:0;color:#d8dfef;font-size:9.2pt;line-height:1.4}
+@media print{html,body{background:white}.page{margin:0}}
+</style>
+</head>
+<body>
+
+<section class="page cover">
+  <div class="cover-grid"></div><div class="cover-accent"></div><div class="cover-line"></div>
+  <div class="cover-content">
+    <div class="kicker">Guion de exposición · 5 minutos</div>
+    <h1>Cazadores de patrones en MiniRed</h1>
+    <p class="subtitle">Guion repartido entre dos participantes y guía teórica para explicar el análisis de reglas de asociación con Apriori y Weka.</p>
+    <div class="cover-rule">
+      <div><strong>Gaseosa Lima-Limón → Cerveza Negra</strong><span>Soporte 1,79 % · Confianza 52,7 % · Resultado estable entre 2024 y 2025</span></div>
+      <div class="lift">14,26<small>lift</small></div>
+    </div>
+  </div>
+  <div class="cover-meta"><div><b>Santiago Skrobacki · Gael Roldan</b>Base de Datos Aplicada · MiniRed</div><div style="text-align:right"><b>Material de apoyo</b>Guion + teoría esencial</div></div>
+</section>
+
+<section class="page">
+  <div class="header"><div class="brand">Cazadores de Patrones</div><div class="part">Parte I · Guion</div></div>
+  <div class="label">Mapa de la exposición</div><h1>Cinco minutos, una historia</h1>
+  <p class="lead">La exposición sigue el orden de la landing. Cada bloque tiene una idea principal; las tablas acompañan, no se leen completas.</p>
+  <div class="grid3">
+    <div class="card stat"><b>2:30</b><span>Santiago: problema, datos y comprobación</span></div>
+    <div class="card stat"><b>2:30</b><span>Gael: selección, validación y cierre</span></div>
+    <div class="card stat"><b>1</b><span>recomendación comercial concreta</span></div>
+  </div>
+  <div class="timeline">
+    <div class="slot"><span class="time">0:00–0:35</span><span class="person">Santiago</span><div><strong>Pregunta y hallazgo</strong><p>Abrir con la regla principal y explicar qué significa lift 14,26.</p></div></div>
+    <div class="slot"><span class="time">0:35–1:15</span><span class="person">Santiago</span><div><strong>Preparación</strong><p>Mostrar el cambio de líneas de venta a matriz binaria y aclarar el alcance multiproducto.</p></div></div>
+    <div class="slot"><span class="time">1:15–2:00</span><span class="person">Santiago</span><div><strong>Corridas en Weka</strong><p>Comparar soporte 0,05 contra 0,01: ocho reglas frente a 53.</p></div></div>
+    <div class="slot"><span class="time">2:00–2:30</span><span class="person">Santiago</span><div><strong>Verificación manual</strong><p>Explicar soporte, confianza y lift con una regla; señalar la coincidencia SQL/Weka.</p></div></div>
+    <div class="slot"><span class="time">2:30–3:50</span><span class="person">Gael</span><div><strong>Curaduría</strong><p>Distinguir la corrida de 190 reglas y justificar las cinco elegidas y un descarte.</p></div></div>
+    <div class="slot"><span class="time">3:50–4:30</span><span class="person">Gael</span><div><strong>Validación temporal</strong><p>Mostrar que las cinco seleccionadas varían menos del 6 % entre años.</p></div></div>
+    <div class="slot"><span class="time">4:30–5:00</span><span class="person">Gael</span><div><strong>Recomendación, límite e IA</strong><p>Proponer la prueba comercial, evitar causalidad y declarar el rol de la IA.</p></div></div>
+  </div>
+  <div class="handoff"><b>Pase acordado:</b> Santiago termina con “Weka comprueba los cálculos, pero todavía no decide qué regla sirve para el negocio”. Gael responde: “Ahí empieza la curaduría”.</div>
+  <div class="page-footer"><span>MiniRed · Guion de exposición</span><b>02</b></div>
+</section>
+
+<section class="page script-page">
+  <div class="header"><div class="brand">Cazadores de Patrones</div><div class="part">Santiago · 0:00–2:30</div></div>
+  <div class="speaker-head"><div><div class="label">Participante 1</div><h1>Santiago Skrobacki</h1></div><span class="speaker-badge">Problema → evidencia</span></div>
+
+  <article class="script-block">
+    <div class="script-top"><span class="time">0:00–0:35</span><h3>Pregunta y resultado principal</h3></div>
+    <div class="show"><b>Mostrar:</b> portada y tarjeta “Gaseosa Lima-Limón → Cerveza Negra”.</div>
+    <p class="say">“Nuestro objetivo fue encontrar qué productos se compran juntos en MiniRed y cuáles de esas asociaciones pueden convertirse en una decisión comercial. El hallazgo principal fue esta regla: entre quienes llevan Gaseosa Lima-Limón, el 52,7 % también lleva Cerveza Negra. Su lift es 14,26; es decir, esa cerveza aparece unas catorce veces más de lo esperable si ambos productos fueran independientes.”</p>
+    <div class="cue">Empezar por el hallazgo; no definir todas las métricas todavía.</div>
+  </article>
+
+  <article class="script-block">
+    <div class="script-top"><span class="time">0:35–1:15</span><h3>Preparar una canasta válida</h3></div>
+    <div class="show"><b>Mostrar:</b> tres cifras y transformación línea → matriz.</div>
+    <p class="say">“Antes de aplicar el algoritmo tuvimos que cambiar el grano de los datos. La tabla original tiene una fila por producto vendido, pero Apriori necesita una fila por ticket y una columna cero o uno por producto. Usamos IdTicket solamente para agrupar y después lo eliminamos. El alcance quedó limitado a las 67.521 canastas con dos o más productos. Esto es importante: al excluir 152.944 tickets unitarios cambian las métricas, por lo que nuestras conclusiones describen compras multiproducto, no todas las ventas.”</p>
+    <div class="cue">Presentar la exclusión como alcance metodológico, no como corrección automática.</div>
+  </article>
+
+  <article class="script-block">
+    <div class="script-top"><span class="time">1:15–2:00</span><h3>Dos corridas, no una reducción</h3></div>
+    <div class="show"><b>Mostrar:</b> tarjetas 8 y 53; abrir una captura solo si hace falta.</div>
+    <p class="say">“Con la misma matriz y confianza mínima de 0,50 hicimos dos ejecuciones. Con soporte 0,05 una asociación debía aparecer en unas 3.376 canastas y Weka encontró ocho reglas. Al bajar el soporte a 0,01 alcanzaban unas 675 canastas y aparecieron 53. No significa que de 53 quedaron ocho: son dos experimentos independientes. Al permitir patrones menos frecuentes, la cantidad de reglas se multiplicó por 6,6.”</p>
+    <div class="cue">Señalar que ambas capturas muestran los parámetros y el resultado real de Weka.</div>
+  </article>
+
+  <article class="script-block">
+    <div class="script-top"><span class="time">2:00–2:30</span><h3>Comprobación manual y pase</h3></div>
+    <div class="show"><b>Mostrar:</b> fórmula de la regla principal y tabla “Coincide”.</div>
+    <p class="say">“No aceptamos los valores de Weka sin verificarlos. Para la regla principal contamos 1.210 canastas con ambos productos sobre 67.521: soporte 1,79 %. Al dividir esas 1.210 por las 2.297 canastas con gaseosa obtenemos 52,7 % de confianza; y al compararlo con la frecuencia base de la cerveza obtenemos lift 14,26. Repetimos el control en tres reglas y SQL coincidió con Weka. Pero comprobar un número no decide si la regla sirve para el negocio.”</p>
+    <div class="cue">Mirar a Gael para marcar el cambio de participante.</div>
+  </article>
+  <div class="page-footer"><span>Guion literal · practicar sin leerlo de memoria</span><b>03</b></div>
+</section>
+
+<section class="page script-page">
+  <div class="header"><div class="brand">Cazadores de Patrones</div><div class="part">Gael · 2:30–5:00</div></div>
+  <div class="speaker-head"><div><div class="label">Participante 2</div><h1>Gael Roldan</h1></div><span class="speaker-badge">Criterio → decisión</span></div>
+
+  <article class="script-block">
+    <div class="script-top"><span class="time">2:30–3:15</span><h3>De 190 reglas a una selección defendible</h3></div>
+    <div class="show"><b>Mostrar:</b> tarjeta 190 y proceso de seis pasos.</div>
+    <p class="say">“Para curar resultados hicimos una tercera corrida diferente de las anteriores: soporte mínimo 0,01, métrica lift y umbral 1,50. Produjo 190 reglas direccionales. Sobre esa lista aplicamos seis filtros: soporte suficiente, eliminación de redundancias, lift relevante, sentido comercial, una acción posible y estabilidad en otro período. Por eso las 53 reglas sirven para comparar soportes, mientras que las 190 son la base de la curaduría.”</p>
+    <div class="cue">Diferenciar con claridad las tres corridas.</div>
+  </article>
+
+  <article class="script-block">
+    <div class="script-top"><span class="time">3:15–3:50</span><h3>Cinco reglas finales y un descarte</h3></div>
+    <div class="show"><b>Mostrar:</b> tabla final y tarjeta roja.</div>
+    <p class="say">“Elegimos cinco reglas. En la tabla cada flecha tiene su propia confianza porque la confianza cambia con la dirección; el soporte y el lift, en cambio, son iguales para el par. También descartamos Detergente hacia Palitos Helados aunque su lift es 7,45. No encontramos un mecanismo comercial plausible y, además, su lift cae 43,2 % entre años. Esto demuestra que ordenar por lift y quedarse con los primeros resultados no es una curaduría.”</p>
+    <div class="cue">No leer las cinco filas; señalar la primera y el descarte.</div>
+  </article>
+
+  <article class="script-block">
+    <div class="script-top"><span class="time">3:50–4:30</span><h3>Validación 2024 frente a 2025</h3></div>
+    <div class="show"><b>Mostrar:</b> tabla temporal.</div>
+    <p class="say">“Para validar, separamos las 33.515 canastas de 2024 y las 34.006 de 2025 y recalculamos el lift. Las cinco reglas elegidas variaron menos del 6 %. La principal pasó de 14,08 a 14,45. Esa estabilidad no prueba causalidad, pero reduce el riesgo de presentar como patrón algo que apareció por una particularidad de un solo período.”</p>
+    <div class="cue">Decir “las cinco seleccionadas”, no generalizar a todas las reglas.</div>
+  </article>
+
+  <article class="script-block">
+    <div class="script-top"><span class="time">4:30–5:00</span><h3>Recomendación, límite y rol de la IA</h3></div>
+    <div class="show"><b>Mostrar:</b> bloque final azul.</div>
+    <p class="say">“Nuestra recomendación es probar una exhibición conjunta de Gaseosa Lima-Limón y Cerveza Negra durante los fines de semana y medir el resultado. Hablamos de una prueba porque la regla muestra coocurrencia, no que un producto cause la compra del otro. La IA ayudó con SQL, el ARFF, comandos y presentación; nosotros verificamos los conteos, las métricas, las direcciones y corregimos afirmaciones que los datos no respaldaban.”</p>
+    <div class="cue">Cerrar en la acción y detenerse; no volver a abrir detalles.</div>
+  </article>
+  <div class="dont"><b>Si se acaba el tiempo:</b> omitir las cinco filas intermedias, pero conservar el descarte, la estabilidad y la recomendación final.</div>
+  <div class="page-footer"><span>Guion literal · cierre a los cinco minutos</span><b>04</b></div>
+</section>
+
+<section class="page">
+  <div class="header"><div class="brand">Cazadores de Patrones</div><div class="part">Parte II · Teoría</div></div>
+  <div class="label">Conceptos fundamentales</div><h1>Qué estamos analizando</h1>
+  <p class="lead">Esta parte no forma parte del discurso de cinco minutos. Sirve para estudiar y responder preguntas.</p>
+
+  <div class="grid2">
+    <div class="concept"><h3>Transacción o canasta</h3><p>Conjunto de productos comprados en un mismo ticket. Es la unidad de análisis: una fila de la matriz representa una transacción.</p></div>
+    <div class="concept"><h3>Ítem e itemset</h3><p>Un ítem es un producto. Un itemset es un conjunto de productos, por ejemplo {Gaseosa, Cerveza}.</p></div>
+    <div class="concept"><h3>Matriz binaria</h3><p>Cada columna es un producto y cada celda indica presencia (1) o ausencia (0). El identificador del ticket no debe entrar como atributo.</p></div>
+    <div class="concept"><h3>Regla de asociación</h3><p>Expresión <b>A → B</b>: dentro de las canastas que contienen A, se analiza con qué frecuencia también aparece B.</p></div>
+  </div>
+
+  <div class="concept" style="margin-top:4mm"><h3>La dirección importa</h3><p><b>A → B</b> y <b>B → A</b> comparten soporte y lift, pero normalmente tienen distinta confianza porque cambia el denominador.</p>
+    <div class="example">Ejemplo: Gaseosa Lima-Limón → Cerveza Negra tiene confianza 52,7 %. La dirección inversa tiene aproximadamente 48,5 %, aunque ambas tienen lift 14,26.</div>
+  </div>
+
+  <div class="concept"><h3>Alcance del análisis</h3><p>Se trabajó con 67.521 canastas de dos o más productos. Los tickets unitarios no pueden contener un par, pero excluirlos también modifica los denominadores. Por eso la interpretación correcta es condicional: <b>patrones dentro de compras multiproducto</b>.</p></div>
+
+  <div class="concept"><h3>Coocurrencia no es causalidad</h3><p>Una regla indica que dos productos aparecen juntos más de lo esperable. No demuestra que comprar A provoque comprar B. Puede haber factores externos: promociones, ubicación, horario, sucursal, estacionalidad o generación de datos.</p></div>
+
+  <div class="big-note"><b>Frase corta para recordar</b><p>Apriori descubre combinaciones frecuentes; el analista decide si son confiables, interpretables y accionables.</p></div>
+  <div class="page-footer"><span>Teoría esencial · datos y reglas</span><b>05</b></div>
+</section>
+
+<section class="page">
+  <div class="header"><div class="brand">Cazadores de Patrones</div><div class="part">Parte II · Teoría</div></div>
+  <div class="label">Métricas</div><h1>Soporte, confianza y lift</h1>
+  <p class="lead">Las tres métricas responden preguntas diferentes. Ninguna debería interpretarse aislada.</p>
+
+  <div class="metric">
+    <h3>1. Soporte</h3><div class="question">¿Qué tan frecuente es la combinación?</div>
+    <div class="formula">soporte(A → B) = <span class="accent">n(A ∩ B) / N</span></div>
+    <p>Para la regla principal: 1.210 / 67.521 = <b>0,0179</b>, es decir, 1,79 % de las canastas.</p>
+  </div>
+  <div class="metric" style="margin-top:4mm">
+    <h3>2. Confianza</h3><div class="question">Entre quienes llevan A, ¿qué proporción también lleva B?</div>
+    <div class="formula">confianza(A → B) = <span class="accent">n(A ∩ B) / n(A)</span></div>
+    <p>1.210 / 2.297 = <b>0,5268</b>. Si una canasta contiene Gaseosa Lima-Limón, la probabilidad observada de encontrar Cerveza Negra es 52,7 %.</p>
+  </div>
+  <div class="metric" style="margin-top:4mm">
+    <h3>3. Lift</h3><div class="question">¿Cuánto mejora la confianza respecto de la frecuencia normal de B?</div>
+    <div class="formula">lift(A → B) = <span class="accent">confianza(A → B) / soporte(B)</span></div>
+    <p>La Cerveza Negra aparece en 2.494 / 67.521 = 3,69 % de las canastas. Entonces 0,5268 / 0,0369 = <b>14,26</b>.</p>
+  </div>
+
+  <table class="table">
+    <thead><tr><th>Valor del lift</th><th>Interpretación</th><th>Precaución</th></tr></thead>
+    <tbody><tr><td class="num">&gt; 1</td><td>Coocurrencia positiva</td><td>Puede ser inestable si el soporte es bajo.</td></tr><tr><td class="num">= 1</td><td>Comportamiento cercano a independencia</td><td>No aporta asociación.</td></tr><tr><td class="num">&lt; 1</td><td>Aparecen juntos menos de lo esperado</td><td>No significa necesariamente sustitución causal.</td></tr></tbody>
+  </table>
+
+  <div class="note amber" style="margin-top:4mm;padding:4mm;border-radius:3mm"><b>Por qué la confianza sola engaña:</b> si B es muy popular, muchas reglas hacia B tendrán confianza alta aunque A no aporte información. El lift compara contra esa frecuencia base.</div>
+  <div class="page-footer"><span>Teoría esencial · métricas</span><b>06</b></div>
+</section>
+
+<section class="page">
+  <div class="header"><div class="brand">Cazadores de Patrones</div><div class="part">Parte II · Teoría</div></div>
+  <div class="label">Algoritmo e interpretación</div><h1>De Apriori a la curaduría</h1>
+  <p class="lead">El algoritmo reduce la búsqueda; no reemplaza la evaluación metodológica ni comercial.</p>
+
+  <div class="grid2">
+    <div class="concept"><h3>¿Qué hace Apriori?</h3><p>Busca itemsets frecuentes por niveles. Usa la propiedad de que, si un conjunto no alcanza el soporte mínimo, ninguno de sus superconjuntos puede alcanzarlo. Así evita probar combinaciones imposibles de forma exhaustiva.</p></div>
+    <div class="concept"><h3>¿Qué hace el soporte mínimo?</h3><p>Define cuántas canastas debe alcanzar un patrón para ser candidato. Un umbral alto produce pocas reglas robustas; uno bajo encuentra más casos, pero aumenta ruido y trabajo de revisión.</p></div>
+  </div>
+
+  <table class="table">
+    <thead><tr><th>Corrida</th><th>Soporte</th><th>Métrica mínima</th><th>Resultado</th><th>Objetivo</th></tr></thead>
+    <tbody>
+      <tr><td>Comparación 1</td><td class="num">0,05</td><td>Confianza 0,50</td><td class="num">8 reglas</td><td>Filtro exigente</td></tr>
+      <tr><td>Comparación 2</td><td class="num">0,01</td><td>Confianza 0,50</td><td class="num">53 reglas</td><td>Mostrar el efecto del soporte</td></tr>
+      <tr><td>Curaduría</td><td class="num">0,01</td><td>Lift 1,50</td><td class="num">190 reglas</td><td>Evaluar asociaciones por encima del azar</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="margin-top:6mm">Los seis filtros aplicados</h2>
+  <div class="flow"><div><b>01</b>Soporte</div><div><b>02</b>Redundancia</div><div><b>03</b>Lift</div><div><b>04</b>Sentido</div><div><b>05</b>Acción</div><div><b>06</b>Otro período</div></div>
+
+  <div class="grid2">
+    <div class="concept"><h3>¿Por qué validar por año?</h3><p>Una regla puede deberse a una promoción, carga de datos o período particular. Recalcularla en 2024 y 2025 permite observar estabilidad. En las cinco seleccionadas, el lift varió menos del 6 %.</p></div>
+    <div class="concept"><h3>¿Por qué descartar un lift 7,45?</h3><p>Detergente → Palitos Helados combina un valor alto con falta de mecanismo comercial y una caída interanual de 43,2 %. Un número llamativo puede ser un artefacto.</p></div>
+  </div>
+
+  <div class="concept"><h3>Detalle de Weka: tratar cero como ausencia</h3><p>Los atributos son nominales {0,1}. La opción <b>treatZeroAsMissing</b> hace que Weka busque reglas sobre la presencia de productos. Sin ella podrían dominar asociaciones sobre ausencias, que no responden a la pregunta comercial.</p></div>
+
+  <div class="big-note"><b>Regla práctica</b><p>Una buena regla necesita frecuencia suficiente, una mejora real frente al azar, estabilidad y una acción que pueda probarse.</p></div>
+  <div class="page-footer"><span>Teoría esencial · algoritmo y curaduría</span><b>07</b></div>
+</section>
+
+<section class="page">
+  <div class="header"><div class="brand">Cazadores de Patrones</div><div class="part">Parte II · Repaso</div></div>
+  <div class="label">Preguntas probables</div><h1>Respuestas cortas para defender el trabajo</h1>
+  <p class="lead">Responder primero en una frase. Ampliar solo si el docente lo pide.</p>
+
+  <div class="qa">
+    <div class="qa-item"><b>¿Por qué sacaron los tickets de un producto?</b><p>Definimos un alcance de canastas multiproducto porque buscamos pares. Reconocemos que la exclusión modifica las métricas; por eso no generalizamos a todas las ventas.</p></div>
+    <div class="qa-item"><b>¿Por qué 8 reglas y después 53?</b><p>Son dos corridas distintas. Al bajar el soporte de 5 % a 1 %, se aceptan combinaciones menos frecuentes y aparecen más reglas.</p></div>
+    <div class="qa-item"><b>¿De dónde salen las 190?</b><p>De una tercera corrida para curaduría: soporte 0,01, métrica lift y mínimo 1,50. No reemplaza las corridas comparativas.</p></div>
+    <div class="qa-item"><b>¿Por qué no elegir solo por lift?</b><p>Porque un lift alto puede tener poco soporte, ser inestable o no tener una explicación de negocio. El descarte Detergente–Palitos lo demuestra.</p></div>
+    <div class="qa-item"><b>¿La regla principal prueba causalidad?</b><p>No. Prueba coocurrencia. La recomendación es realizar un experimento comercial y medir si la exhibición produce un efecto.</p></div>
+    <div class="qa-item"><b>¿Cómo verificaron a Weka?</b><p>Recalculamos soporte, confianza y lift con conteos independientes desde SQL y obtuvimos los mismos valores, salvo redondeo.</p></div>
+    <div class="qa-item"><b>¿Qué hizo la IA?</b><p>Ayudó con SQL, ARFF, comandos y comunicación. El grupo verificó métricas, direcciones, estabilidad y corrigió afirmaciones no respaldadas.</p></div>
+    <div class="qa-item"><b>¿Cuál es la recomendación concreta?</b><p>Probar Gaseosa Lima-Limón junto a Cerveza Negra los fines de semana y evaluar el resultado contra un período o grupo de control.</p></div>
+  </div>
+
+  <h2 style="margin-top:6mm">Checklist antes de presentar</h2>
+  <div class="checklist">
+    <div class="check">Abrir la landing y comprobar las capturas.</div>
+    <div class="check">Ensayar una vez con cronómetro.</div>
+    <div class="check">No leer tablas fila por fila.</div>
+    <div class="check">Usar “canastas multiproducto”.</div>
+    <div class="check">Diferenciar 53 de 190 reglas.</div>
+    <div class="check">Decir “asociación”, no “causa”.</div>
+    <div class="check">Respetar el pase a los 2:30.</div>
+    <div class="check">Cerrar con la prueba comercial.</div>
+  </div>
+
+  <div class="big-note"><b>Idea final para ambos</b><p>El algoritmo encuentra patrones. La calidad del trabajo aparece al verificar, descartar, validar y convertir una asociación en una hipótesis comercial medible.</p></div>
+  <div class="page-footer"><span>MiniRed · Fin de la guía</span><b>08</b></div>
+</section>
+</body>
+</html>
+
