@@ -1,122 +1,73 @@
 # Fase 4 — Conexión con RA4
 ## Reflexiones individuales
 
-> **Cómo usar este archivo.** Son dos borradores, uno por integrante, escritos sobre hechos
-> reales de este trabajo. Están pensados como punto de partida, no como entrega final.
-> Cada uno debería reemplazar los tramos marcados con `[...]` por su propia experiencia y
-> ajustar el tono. Donde dice `[NOMBRE DE LA ADVERTENCIA]` va el nombre exacto que usó el
-> profesor en la Clase 8 — no lo tenemos en el PDF de la Unidad 5 y no conviene inventarlo.
+---
+
+# Reflexión individual
+
+**Santiago Skrobacki**
+
+**Preparación de datos y ejecución del algoritmo.** Las dos corridas de Apriori tardaron 0,81 y
+3,70 segundos: cuatro segundos y medio en total. Todo lo demás —entender el grano de
+`Fact_Ventas`, escribir la consulta, decidir qué tickets entraban, generar el archivo para Weka
+y verificar que los números cerraran— se llevó prácticamente todo el tiempo que le dedicamos.
+La Unidad 4 dice que la preparación consume la mayor parte del esfuerzo y uno lo lee y asiente;
+medirlo fue distinto. Entendí *por qué* pasa: el algoritmo resuelve un problema cerrado, con
+una respuesta única, y por eso se automatiza. La preparación es donde están las preguntas que
+no tienen respuesta correcta, y ninguna de las nuestras venía resuelta en el enunciado.
+
+**La advertencia que estuvimos cerca de cometer.** Dar por buena una suposición sobre los datos
+sin verificarla contra la base. El enunciado indicaba agrupar por `IdVenta`, "el ticket", pero
+en `MiniRed_DW` esa columna es la PK de la línea: el ticket es `IdTicket`. Siguiéndolo al pie,
+cada canasta habría tenido un solo producto y Apriori no habría devuelto nada. Lo encontramos
+revisando las columnas antes de escribir la consulta, casi de casualidad; si no, habríamos
+pasado horas buscando por qué "no hay patrones" cuando el problema estaba en nuestro `GROUP BY`.
+Me llevo que la fuente gana sobre lo que uno cree de la fuente, incluso cuando eso viene escrito
+en la consigna.
+
+**El rol de la IA.** El riesgo no estaba en el código —el código falla ruidosamente— sino en los
+números. Si le hubiéramos pedido el soporte y el lift en vez de calcularlos, habría devuelto
+cifras creíbles y no teníamos forma de detectarlo: nadie mira un lift de 7,45 y sospecha. Por
+eso los calculamos por dos caminos separados, SQL contra la base y Weka sobre el `.arff`, y
+coincidieron al segundo decimal. Un número que no se puede reproducir por dos vías no entra al
+informe.
 
 ---
 
-# Reflexión individual — Integrante 1
+# Reflexión individual
 
-**[Nombre y apellido]**
+**(Nombre del segundo integrante)**
 
-### Preparación de datos contra ejecución del algoritmo
+**Preparación de datos y ejecución del algoritmo.** Calculo que entre el 80 y el 90 % del tiempo
+se fue en la Fase 0. Apriori procesó 67.521 transacciones en 3,70 segundos y FP-Growth en 0,48;
+elegir *cuáles* 67.521 transacciones nos llevó una tarde. Lo que me sorprendió es que la
+decisión más importante del trabajo no fue técnica sino de criterio: el 69 % de los tickets de
+MiniRed tiene un solo producto, 152.944 de 220.465. Esos tickets no pueden generar ninguna
+regla, pero engordan el denominador y hunden todos los soportes. Sacarlos no lo decide ninguna
+herramienta. Eso es lo que la Unidad 4 quiere decir cuando habla de que la preparación define el
+proyecto: no es la etapa más larga, es donde se toman las decisiones que después nadie revisa.
 
-La desproporción fue tan grande que da un poco de vergüenza escribirla. Las dos corridas de
-Apriori tardaron **0,81 y 3,70 segundos**: cuatro segundos y medio sumados. Todo lo demás
-—entender el grano de `Fact_Ventas`, escribir la consulta que arma las canastas, decidir qué
-tickets entraban, generar el `.arff` y verificar que los números cerraran— se llevó
-prácticamente la totalidad del tiempo que le dedicamos.
+**La advertencia que estuvimos cerca de cometer.** Confundir una correlación fuerte con un
+hallazgo. Nuestra regla `Palitos Helados → Detergente` tiene lift 7,45, el cuarto más alto del
+dataset, y no hay ninguna explicación de por qué alguien compraría helado con detergente. Si
+ordenábamos por lift y presentábamos las primeras, entraba sin discusión. Lo evitamos aplicando
+el paso 4 —exigirle a cada regla un mecanismo de negocio— antes que el orden por lift, y después
+recalculando el lift por año: las reglas con explicación varían menos del 12 %, las implausibles
+nunca menos del 29 %. Peor todavía, hay pares que pasan de lift 0,08 a 4,52 entre 2024 y 2025;
+eso no es un cambio de hábito sino un cambio en cómo se generaron los datos, y las métricas lo
+respaldaban igual.
 
-Esto es exactamente lo que plantea la Unidad 4 cuando dice que la preparación consume la mayor
-parte del esfuerzo de un proyecto de minería, pero leerlo en un apunte y medirlo con reloj son
-dos cosas distintas. Lo que entendí es *por qué* pasa: el algoritmo resuelve un problema
-cerrado y bien definido, mientras que la preparación es donde están todas las decisiones que
-no tienen una respuesta única. Ninguna de las nuestras —el recorte, el grano, qué hacer con
-los tickets de un solo ítem— venía dada por el enunciado.
-
-### La advertencia que estuvimos por cometer
-
-`[NOMBRE DE LA ADVERTENCIA — la de confundir el dato con lo que uno supone del dato]`
-
-El enunciado indicaba agrupar por `IdVenta`, "el ticket". En `MiniRed_DW` el `IdVenta` es la
-clave primaria de la **línea**; el ticket es `IdTicket`. Si lo hubiéramos seguido al pie, cada
-canasta habría tenido un solo producto y Apriori no habría devuelto absolutamente nada.
-
-Lo que más me quedó no es el error en sí, sino que lo encontramos por casualidad, mirando las
-columnas de la tabla antes de escribir la consulta. Si en vez de eso hubiéramos confiado en la
-consigna, habríamos pasado horas buscando por qué "no hay patrones en los datos" cuando el
-problema era nuestro. Lo evitamos consultando el esquema real en lugar de asumir que el
-enunciado describía la base que teníamos instalada — y de paso descubrimos que tampoco
-coincidía en la escala: habla de 4.200 artículos y 14 sucursales, y nuestra base tiene 30 y 7.
-
-### El rol de la IA
-
-Usamos la IA para escribir la consulta SQL, generar el archivo `.arff` y redactar buena parte
-de la documentación. El riesgo no estaba en el código —ese falla ruidosamente o no falla— sino
-en los **números**. Si le hubiéramos pedido los valores de soporte, confianza y lift, nos
-habría dado cifras perfectamente plausibles y no teníamos forma de darnos cuenta: nadie mira
-un lift de 7,45 y sospecha.
-
-Por eso los calculamos por **dos caminos independientes**: una consulta SQL contra
-`MiniRed_DW` aplicando las fórmulas a mano, y Weka sobre el `.arff`. Los dos coincidieron
-hasta el segundo decimal. La regla que adoptamos fue simple: un número que no se puede
-reproducir por dos vías no entra al informe.
-
-`[Agregar acá algo propio: qué parte te costó más, o algo que hubieras hecho distinto.]`
+**El rol de la IA.** Confiar ciegamente hubiera sido riesgoso en la interpretación. Si le
+preguntábamos qué mecanismo explica una regla, habría encontrado una justificación convincente
+para cualquier par de productos, incluso para helado con detergente. Los modelos generativos son
+muy buenos produciendo explicaciones plausibles, que es lo contrario de lo que necesita un paso
+que existe justamente para filtrar lo que suena razonable y no lo es. Por eso el juicio sobre el
+mecanismo lo tomamos primero nosotros y recién después lo contrastamos contra la estabilidad
+entre años, que sale de la base y no de una opinión.
 
 ---
 
-# Reflexión individual — Integrante 2
-
-**[Nombre y apellido]**
-
-### Preparación de datos contra ejecución del algoritmo
-
-Si tuviera que poner un número, diría que entre el 80 y el 90 % del tiempo se fue en la Fase 0.
-El dato que mejor lo ilustra: Apriori corrió en **3,70 segundos** sobre 67.521 transacciones,
-y FP-Growth en **0,48**. Elegir *qué* 67.521 transacciones, en cambio, fue una discusión larga.
-
-Lo que me llamó la atención es que la decisión más importante de todo el trabajo no fue técnica
-sino de criterio: el **69 % de los tickets de MiniRed tiene un solo producto**. Son 152.944 de
-220.465. Esos tickets no pueden generar ninguna regla —no hay con qué asociar el único ítem—
-pero sí engordan el denominador y hunden todos los soportes. Decidir excluirlos no lo hace
-ningún algoritmo; lo tuvimos que razonar nosotros, y de eso dependía que el resto del análisis
-tuviera sentido o no. Eso es, creo, lo que la Unidad 4 quiere decir con que la preparación es
-donde se define el proyecto.
-
-### La advertencia que estuvimos por cometer
-
-`[NOMBRE DE LA ADVERTENCIA — la de tomar una correlación fuerte como si fuera un hallazgo]`
-
-Nuestra regla `Palitos Helados → Detergente` tiene un lift de **7,45**, el cuarto más alto de
-todo el dataset. Si hubiéramos ordenado por lift y presentado las primeras, entraba sin
-discusión. Y no existe ninguna explicación de por qué alguien compraría helado junto con
-detergente.
-
-Lo que hicimos para no caer fue aplicar el paso 4 de la curaduría antes que el orden por lift:
-exigirle a cada regla una explicación de negocio. Después, para confirmarlo, recalculamos el
-lift por separado en 2024 y 2025. El resultado fue el que más me sorprendió del trabajo: las
-reglas con explicación plausible varían **menos del 12 %** entre años, y ninguna de las
-implausibles baja del 29 %. Dos criterios independientes, uno cualitativo y otro estadístico,
-señalaron el mismo grupo.
-
-Hubo un caso todavía peor: hay pares que pasan de lift **0,08 a 4,52** entre un año y otro. Un
-lift menor a 1 significa que esos productos se compraban *separados*. Un salto así no es un
-cambio de hábito de los clientes; es un cambio estructural en cómo se generaron los datos.
-Presentarlo como descubrimiento comercial habría sido el error más grave que podíamos cometer.
-
-### El rol de la IA
-
-La IA nos generó el código y la redacción, y eso funcionó bien. Donde confiar ciegamente
-hubiera sido un riesgo real es en la **interpretación**: si le hubiéramos preguntado "¿qué
-mecanismo de negocio explica esta regla?", habría encontrado una justificación convincente
-para cualquier par de productos, incluso para helado con detergente. Los modelos generativos
-son buenos inventando explicaciones plausibles, y eso es justo lo contrario de lo que necesita
-el paso 4.
-
-Por eso el juicio sobre el mecanismo lo tomamos nosotros primero, y recién después lo
-contrastamos contra la estabilidad entre años, que es un dato duro que sale de la base y no
-de una opinión.
-
-`[Agregar acá algo propio: qué parte te costó más, o algo que hubieras hecho distinto.]`
-
----
-
-## Datos de respaldo (por si hace falta citarlos)
+## Datos de respaldo
 
 | Dato | Valor |
 |---|---|
