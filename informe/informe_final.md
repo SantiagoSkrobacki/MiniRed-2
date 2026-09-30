@@ -1,11 +1,11 @@
 # Cazadores de Patrones en MiniRed
 ### Reglas de asociación sobre MiniRed_DW con Apriori y FP-Growth
 
-**Materia:** Base de Datos Aplicada — Unidad 5
-**Actividad:** Clase 8 — De la base de datos real a la regla de negocio
-**Integrantes:** *(completar)*
-**Herramientas:** SQL Server 2025 · Weka 3.8.7 · Python 3.14
-**Repositorio:** https://github.com/SantiagoSkrobacki/MiniRed-2
+**Materia:** Base de Datos Aplicada — Unidad 5  
+**Actividad:** Clase 8 — De la base de datos real a la regla de negocio  
+**Integrantes:** *(completar)*  
+**Herramientas:** SQL Server 2025 · Weka 3.8.7 · Python 3.14  
+**Repositorio:** https://github.com/SantiagoSkrobacki/MiniRed-2  
 **Presentación:** https://santiagoskrobacki.github.io/MiniRed-2/
 
 ---
