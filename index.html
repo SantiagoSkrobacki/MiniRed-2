@@ -558,70 +558,68 @@ footer{border-top:1px solid var(--ln);margin-top:28px;padding-top:17px;font-size
 
 <section id="guion">
   <div class="eb">10 · Exposición</div>
-  <h2>Guion: dos personas, cinco minutos cada una</h2>
-  <p class="prose sub">El enunciado pide mostrar <b>una</b> regla curada y cómo se llegó a ella.
-    El corte natural es: uno cuenta cómo se construyó la evidencia, el otro qué se hizo con ella.</p>
-
-  <h3>Persona 1 — De la base de datos a 53 reglas</h3>
-  <div class="script">
-    <div class="t">0:00<br>1:00</div>
-    <div class="c"><b>El problema</b>
-      <p>MiniRed tiene 220.465 tickets y no sabe qué se compra junto. Mostrar la tabla
-        <code class="mn">Fact_Ventas</code> en pantalla.</p>
-      <div class="say">"Esto es lo que hay: una fila por línea de ticket. Nadie sabe qué productos viajan juntos en la misma bolsa."</div></div>
-
-    <div class="t">1:00<br>2:30</div>
-    <div class="c"><b>La preparación — y la decisión que la define</b>
-      <p>Mostrar la transformación de grano de línea a grano de canasta. Contar el filtro del 69 %.</p>
-      <div class="say">"El 69 % de los tickets tiene un solo producto. Esos no pueden generar ninguna regla, pero hunden todos los soportes. Los sacamos: quedaron 67.521."</div></div>
-
-    <div class="t">2:30<br>3:30</div>
-    <div class="c"><b>Las tres métricas, con la regla estrella</b>
-      <p>Desarrollar el cálculo de Gaseosa Lima-Limón → Cerveza Negra en pantalla.</p>
-      <div class="say">"La cerveza está en el 3,7 % de los tickets. Pero entre los que llevan esta gaseosa, en el 52,7 %. Catorce veces más probable. Eso es el lift."</div></div>
-
-    <div class="t">3:30<br>4:15</div>
-    <div class="c"><b>La verificación manual</b>
-      <p>Mostrar la tabla SQL vs. Weka. Enfatizar que son dos caminos independientes.</p>
-      <div class="say">"Calculamos tres reglas a mano en SQL y las comparamos contra Weka. Coinciden hasta el segundo decimal: la matriz está bien armada."</div></div>
-
-    <div class="t">4:15<br>5:00</div>
-    <div class="c"><b>Las dos corridas — y el pase</b>
-      <p>Captura de Weka con 8 reglas y con 53.</p>
-      <div class="say">"Bajamos el soporte de 0,05 a 0,01 y las reglas pasaron de 8 a 53. Con 30 productos. En una cadena real serían decenas de miles. Y acá empieza la parte difícil, que la cuenta [nombre]."</div></div>
-  </div>
-
-  <h3>Persona 2 — De 53 reglas a un hallazgo</h3>
-  <div class="script">
-    <div class="t">0:00<br>1:00</div>
-    <div class="c"><b>El problema inverso</b>
-      <p>Mostrar las 53 reglas en crudo, ordenadas por lift.</p>
-      <div class="say">"Tenemos 53 reglas, todas estadísticamente ciertas. Y la mayoría no sirve para nada. El algoritmo ya hizo su trabajo; ahora hace falta criterio."</div></div>
-
-    <div class="t">1:00<br>2:00</div>
-    <div class="c"><b>El descarte estrella</b>
-      <p>Mostrar <code class="mn">Palitos Helados → Detergente</code>, lift 7,45.</p>
-      <div class="say">"Cuarta regla más fuerte del dataset. Y no hay ninguna explicación de por qué alguien compraría helado con detergente. Si ordenábamos por lift y listo, esta entraba a la presentación."</div></div>
-
-    <div class="t">2:00<br>3:15</div>
-    <div class="c"><b>El hallazgo metodológico</b>
-      <p>Mostrar la tabla de estabilidad 2024 vs. 2025. Este es el momento fuerte de toda la exposición.</p>
-      <div class="say">"Separamos las reglas por si tenían explicación de negocio, sin mirar los números. Después recalculamos el lift por año. Las que tenían explicación varían menos del 12 %. Las que no, entre −50 % y +5.000 %. Los dos criterios dieron el mismo conjunto."</div></div>
-
-    <div class="t">3:15<br>4:15</div>
-    <div class="c"><b>La regla que se lleva a la gerencia</b>
-      <p>Gaseosa Lima-Limón ↔ Cerveza Negra: lift 14,26, estable (+2,6 %), con mecanismo claro.</p>
-      <div class="say">"Lift 14, se sostiene los dos años, y tiene una explicación que cualquiera entiende. Recomendación: punta de góndola de fin de semana con las dos juntas."</div></div>
-
-    <div class="t">4:15<br>5:00</div>
-    <div class="c"><b>El cierre honesto</b>
-      <p>Mencionar el salto de lift 0,08 a 4,52 como límite del análisis.</p>
-      <div class="say">"Una advertencia: hay pares que pasan de lift 0,08 a 4,52 entre un año y otro. Eso no es un cambio de hábito, es un cambio en cómo se generaron los datos. Lo dejamos afuera en vez de venderlo como descubrimiento."</div></div>
-  </div>
+  <h2>Guion: 5 minutos, dos personas</h2>
+  <p class="prose sub">El enunciado pide <b>5 minutos por grupo</b> y una sola cosa concreta:
+    mostrar <em>una regla curada y cómo se llegó a ella</em>. Son ~2:20 de habla real cada uno.</p>
 
   <div class="note">
-    <b>Si sobra tiempo</b>, el comodín es FP-Growth: 6,9 veces más rápido, mismas reglas.
-    Cierra bien porque muestra que se probó una alternativa.
+    <b>La estrategia: la regla primero.</b> En vez de construir hacia el hallazgo y jugarse a
+    llegar, se abre con la regla en los primeros 30 segundos y el resto se usa para justificarla.
+    Si el tiempo se acorta, lo que el enunciado exige ya quedó dicho.
+  </div>
+
+  <h3>Persona 1 — La regla y de dónde salió <span class="mn" style="font-size:13px;color:var(--ink2)">(0:00 – 2:30)</span></h3>
+  <div class="script">
+    <div class="t">0:00<br>0:30</div>
+    <div class="c"><b>La regla, de entrada</b>
+      <p>Una sola placa: <code class="mn">Gaseosa Lima-Limón → Cerveza Negra · lift 14,26</code>.</p>
+      <div class="say">"La cerveza negra está en el 3,7 % de los tickets de MiniRed. Pero entre los que llevan Gaseosa Lima-Limón, está en el 52,7 %. Catorce veces más probable. Eso es lo que encontramos; ahora les contamos cómo."</div></div>
+
+    <div class="t">0:30<br>1:20</div>
+    <div class="c"><b>De dónde salen esos números</b>
+      <p>La placa del ticket en tres formatos: línea → canasta → matriz 0/1.</p>
+      <div class="say">"La tabla de hechos tiene una fila por línea. Apriori necesita una por canasta. Este ticket son tres filas en la base y una sola en la matriz. Y le sacamos el número de ticket: si queda adentro, el algoritmo no encuentra nada."</div></div>
+
+    <div class="t">1:20<br>2:00</div>
+    <div class="c"><b>La decisión que definió el trabajo</b>
+      <p>Mostrar el 69 %.</p>
+      <div class="say">"El 69 % de los tickets tiene un solo producto. No pueden generar ninguna regla, pero hunden todos los soportes. Sacarlos no lo decide el algoritmo: lo decidimos nosotros. Quedaron 67.521 transacciones."</div></div>
+
+    <div class="t">2:00<br>2:30</div>
+    <div class="c"><b>Las dos corridas y el pase</b>
+      <p>Las dos capturas de Weka, lado a lado.</p>
+      <div class="say">"Con soporte 0,05 Weka devuelve 8 reglas; con 0,01, cincuenta y tres. Y acá empieza el problema de verdad, que lo cuenta [nombre]."</div></div>
+  </div>
+
+  <h3>Persona 2 — Por qué esa y no otra <span class="mn" style="font-size:13px;color:var(--ink2)">(2:30 – 5:00)</span></h3>
+  <div class="script">
+    <div class="t">2:30<br>3:20</div>
+    <div class="c"><b>El descarte estrella</b>
+      <p><code class="mn">Palitos Helados → Detergente · lift 7,45</code>.</p>
+      <div class="say">"Esta es la cuarta regla más fuerte del dataset. Y no hay ninguna explicación de por qué alguien compraría helado con detergente. Si ordenábamos por lift y listo, esta entraba a la presentación."</div></div>
+
+    <div class="t">3:20<br>4:20</div>
+    <div class="c"><b>El hallazgo</b>
+      <p>La tabla de estabilidad 2024 vs. 2025. <b>Es el momento fuerte: no apurarlo.</b></p>
+      <div class="say">"Separamos las reglas por si tenían explicación de negocio, sin mirar los números. Después recalculamos el lift año por año. Las que tenían explicación varían menos del 12 %. Las que no, entre menos 50 y más 5.000 por ciento. Los dos criterios, por separado, dieron el mismo conjunto."</div></div>
+
+    <div class="t">4:20<br>5:00</div>
+    <div class="c"><b>Vuelta a la regla y recomendación</b>
+      <p>Volver a la placa del inicio.</p>
+      <div class="say">"Por eso nos quedamos con esta: lift 14, se sostiene los dos años, y tiene una explicación que cualquiera entiende. La recomendación a la gerencia es una sola: punta de góndola de fin de semana con las dos juntas."</div></div>
+  </div>
+
+  <div class="note b">
+    <b>Lo que queda afuera por tiempo.</b> Las fórmulas de soporte y confianza, la verificación
+    manual contra SQL, FP-Growth, las siete reglas curadas y los diez descartes.
+    <b>Todo eso está en el informe</b> — no hay que contarlo, hay que tenerlo listo por si lo preguntan.
+  </div>
+
+  <div class="note w">
+    <b>Tres reglas de oro para que entre en 5 minutos.</b>
+    No leer ninguna tabla en voz alta: se muestra y se dice el titular.
+    No explicar qué es el soporte ni la confianza: solo el lift, y en una frase.
+    Ensayarlo con cronómetro una vez — la primera pasada siempre da 7 minutos.
   </div>
 </section>
 
